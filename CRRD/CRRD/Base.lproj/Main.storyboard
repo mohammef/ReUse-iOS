@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mbr-1d-QWT">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" userLabel="Main View Controller" customClass="MainViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="TaX-S1-c5h">
+                                <rect key="frame" x="25" y="89" width="364" height="622"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Corvallis Reuse and Repair Directory" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85G-NC-qED" userLabel="ApplicationNameLong">
+                                        <rect key="frame" x="0.0" y="0.0" width="364" height="95.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Provided by the Corvallis Sustainability Coalition" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jE-2w-s3Z" userLabel="ApplicationDescription">
+                                        <rect key="frame" x="0.0" y="105.66666666666666" width="364" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="QZZ-BM-Rmw">
+                                        <rect key="frame" x="0.0" y="133.66666666666669" width="364" height="488.33333333333331"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zb5-ru-C4E" userLabel="RepairButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="364" height="156.00000000000003"/>
+                                                <color key="backgroundColor" red="0.30980392159999998" green="0.36078431370000003" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <state key="normal" title="REPAIR">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="Lnp-7L-Aqk" kind="show" id="hDn-V8-gQV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gho-C8-Upg" userLabel="ReuseButton">
+                                                <rect key="frame" x="0.0" y="166.00000000000003" width="364" height="156.33333333333334"/>
+                                                <color key="backgroundColor" red="0.30980392159999998" green="0.36078431370000003" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <state key="normal" title="REUSE">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="D8d-rp-vsZ" kind="show" id="dnS-4T-cKt"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OFA-BS-i5H" userLabel="RecycleButton">
+                                                <rect key="frame" x="0.0" y="332.33333333333337" width="364" height="156"/>
+                                                <color key="backgroundColor" red="0.30980392159999998" green="0.36078431370000003" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <state key="normal" title="RECYCLE">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="Ivf-v9-BZQ" kind="show" id="Oon-4L-lKq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.69803921568627447" blue="0.27843137254901962" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="TaX-S1-c5h" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="25" id="2vi-rh-ZAx"/>
+                            <constraint firstItem="TaX-S1-c5h" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="25" id="KC7-7P-O2F"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TaX-S1-c5h" secondAttribute="bottom" constant="25" id="XcS-Fw-lVx"/>
+                            <constraint firstAttribute="trailing" secondItem="TaX-S1-c5h" secondAttribute="trailing" constant="25" id="elx-tQ-a7F"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="uJr-2E-eWJ">
+                        <barButtonItem key="leftBarButtonItem" title="Corvallis ReUse" style="done" id="UcZ-1i-1hR">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="sPd-re-OKi" userLabel="Drop Down Menu">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="BYZ-38-t0r" id="fas-3V-U6T"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" id="1Rf-Tc-4EU">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="applicationDescription" destination="9jE-2w-s3Z" id="Msa-oj-91T"/>
+                        <outlet property="applicationNameLong" destination="85G-NC-qED" id="6Qe-k7-ajv"/>
+                        <outlet property="mainView" destination="8bC-Xf-vdC" id="ut2-Lt-ct4"/>
+                        <outlet property="recycleButton" destination="OFA-BS-i5H" id="Bdy-3i-Har"/>
+                        <outlet property="repairButton" destination="Zb5-ru-C4E" id="CpE-w8-oNF"/>
+                        <outlet property="reuseButton" destination="Gho-C8-Upg" id="ig0-Vg-DJB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4822" y="-546"/>
+        </scene>
+        <!--Drop Down Menu View Controller-->
+        <scene sceneID="GOp-sq-z1T">
+            <objects>
+                <viewController storyboardIdentifier="DropDownMenuViewController" modalPresentationStyle="overFullScreen" id="WGS-Vb-jov" customClass="DropDownMenuViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jvH-Ew-Naw"/>
+                        <viewControllerLayoutGuide type="bottom" id="ae7-f6-5dN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vgw-43-GcS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="0V2-gM-egz">
+                                <rect key="frame" x="20" y="0.0" width="374" height="736"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8z9-io-KRP">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="368"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="dropDownAboutButton"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="About">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="aboutButton:" destination="WGS-Vb-jov" eventType="touchUpInside" id="0Ir-ND-Eud"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTE-AX-S4H">
+                                        <rect key="frame" x="0.0" y="368" width="374" height="368"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="dropDownContactButton"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Contact">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="contactButton:" destination="WGS-Vb-jov" eventType="touchUpInside" id="on2-iI-fZs"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="8z9-io-KRP" secondAttribute="trailing" id="4Hi-du-2ri"/>
+                                    <constraint firstAttribute="trailing" secondItem="GTE-AX-S4H" secondAttribute="trailing" id="X6V-oU-KBO"/>
+                                    <constraint firstItem="GTE-AX-S4H" firstAttribute="leading" secondItem="0V2-gM-egz" secondAttribute="leading" id="djm-Tc-Sb0"/>
+                                    <constraint firstItem="8z9-io-KRP" firstAttribute="leading" secondItem="0V2-gM-egz" secondAttribute="leading" id="h5z-r6-9SZ"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.30980392159999998" green="0.36078431370000003" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ae7-f6-5dN" firstAttribute="top" secondItem="0V2-gM-egz" secondAttribute="bottom" id="2l2-yf-3Ui"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0V2-gM-egz" secondAttribute="trailing" id="D0d-Lg-MaP"/>
+                            <constraint firstItem="0V2-gM-egz" firstAttribute="top" secondItem="jvH-Ew-Naw" secondAttribute="bottom" id="QQU-ms-P84"/>
+                            <constraint firstItem="0V2-gM-egz" firstAttribute="leading" secondItem="Vgw-43-GcS" secondAttribute="leadingMargin" id="Tuz-Dr-akR"/>
+                        </constraints>
+                    </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="150" height="80"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="414" height="736"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XZW-4G-SEx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3881" y="-1308"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="aoO-5H-Pjf">
+            <objects>
+                <viewController id="Ubb-Nb-1IT" userLabel="About View Controller" customClass="AboutViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bCJ-48-akt"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZkU-7m-ra3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xee-3u-uVZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tvd-qg-aav">
+                                <rect key="frame" x="20" y="84" width="374" height="632"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Corvallis ReUse" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PxC-Xf-1iB" userLabel="AboutActivityLabel">
+                                        <rect key="frame" x="8" y="8" width="358" height="32"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpt-cR-XcG" userLabel="AboutCorvallisReuse">
+                                        <rect key="frame" x="8" y="60" width="358" height="71.666666666666657"/>
+                                        <string key="text">The purpose of the Corvallis Reuse and Repair Directory is to provide Corvallis and the outlying community a way to easily locate organizations that will take the following items.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="stT-NI-s20">
+                                        <rect key="frame" x="8" y="151.66666666666669" width="358" height="472.33333333333331"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_box_black" translatesAutoresizingMaskIntoConstraints="NO" id="RlD-Hl-31h" userLabel="ReuseCheckBox">
+                                                <rect key="frame" x="8" y="8" width="25" height="25.000000000000028"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="4xy-dv-OBA"/>
+                                                    <constraint firstAttribute="height" constant="25" id="K2V-nO-mg0"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reusable items that can be sold to the public as used items" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17f-AP-Quc" userLabel="AboutCorvallisReuseReuse">
+                                                <rect key="frame" x="48" y="4.3333333333333428" width="302" height="33.666666666666686"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_box_black" translatesAutoresizingMaskIntoConstraints="NO" id="8Rt-i3-CqB" userLabel="RecycleCheckBox">
+                                                <rect key="frame" x="8" y="53.000000000000028" width="25" height="25"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="HOh-dw-1e2"/>
+                                                    <constraint firstAttribute="height" constant="25" id="b2D-QT-CzQ"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recyclable items" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p44-tw-T87" userLabel="AboutCorvallisReuseRecycle">
+                                                <rect key="frame" x="48" y="57.000000000000028" width="302" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_box_black" translatesAutoresizingMaskIntoConstraints="NO" id="tqc-aC-nlj" userLabel="RepairCheckBox">
+                                                <rect key="frame" x="8" y="98.000000000000028" width="25" height="25"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="95j-MD-QN2"/>
+                                                    <constraint firstAttribute="width" constant="25" id="xnP-cM-mb2"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items for repair" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faQ-a0-M89" userLabel="AboutCorvallisReuseRepair">
+                                                <rect key="frame" x="48" y="102.00000000000003" width="302" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="8Rt-i3-CqB" firstAttribute="leading" secondItem="stT-NI-s20" secondAttribute="leading" constant="8" id="54C-K5-k9B"/>
+                                            <constraint firstItem="8Rt-i3-CqB" firstAttribute="top" secondItem="RlD-Hl-31h" secondAttribute="bottom" constant="20" id="8jC-bZ-wE9"/>
+                                            <constraint firstItem="faQ-a0-M89" firstAttribute="centerY" secondItem="tqc-aC-nlj" secondAttribute="centerY" id="EMX-No-k2F"/>
+                                            <constraint firstAttribute="trailing" secondItem="faQ-a0-M89" secondAttribute="trailing" constant="8" id="HZn-Bo-fLt"/>
+                                            <constraint firstAttribute="trailing" secondItem="17f-AP-Quc" secondAttribute="trailing" constant="8" id="LZk-K2-MwZ"/>
+                                            <constraint firstItem="faQ-a0-M89" firstAttribute="leading" secondItem="tqc-aC-nlj" secondAttribute="trailing" constant="15" id="Llk-IM-1FO"/>
+                                            <constraint firstItem="p44-tw-T87" firstAttribute="leading" secondItem="8Rt-i3-CqB" secondAttribute="trailing" constant="15" id="YMv-Wq-HtI"/>
+                                            <constraint firstItem="tqc-aC-nlj" firstAttribute="leading" secondItem="stT-NI-s20" secondAttribute="leading" constant="8" id="Yr1-ge-Bpq"/>
+                                            <constraint firstAttribute="trailing" secondItem="p44-tw-T87" secondAttribute="trailing" constant="8" id="eRe-KB-cPc"/>
+                                            <constraint firstItem="RlD-Hl-31h" firstAttribute="top" secondItem="stT-NI-s20" secondAttribute="top" constant="8" id="iPX-fP-klf"/>
+                                            <constraint firstItem="17f-AP-Quc" firstAttribute="leading" secondItem="RlD-Hl-31h" secondAttribute="trailing" constant="15" id="j8M-BA-hfW"/>
+                                            <constraint firstItem="tqc-aC-nlj" firstAttribute="top" secondItem="8Rt-i3-CqB" secondAttribute="bottom" constant="20" id="n4H-4b-P9L"/>
+                                            <constraint firstItem="p44-tw-T87" firstAttribute="centerY" secondItem="8Rt-i3-CqB" secondAttribute="centerY" id="tYM-7l-Z87"/>
+                                            <constraint firstItem="RlD-Hl-31h" firstAttribute="leading" secondItem="stT-NI-s20" secondAttribute="leading" constant="8" id="vg3-iQ-rv1"/>
+                                            <constraint firstItem="17f-AP-Quc" firstAttribute="centerY" secondItem="RlD-Hl-31h" secondAttribute="centerY" id="w8R-Ef-Hoe"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="stT-NI-s20" firstAttribute="top" secondItem="rpt-cR-XcG" secondAttribute="bottom" constant="20" id="8ON-QC-tet"/>
+                                    <constraint firstAttribute="trailing" secondItem="PxC-Xf-1iB" secondAttribute="trailing" constant="8" id="8nH-9X-FYi"/>
+                                    <constraint firstItem="rpt-cR-XcG" firstAttribute="leading" secondItem="Tvd-qg-aav" secondAttribute="leading" constant="8" id="8w1-LI-oaI"/>
+                                    <constraint firstItem="stT-NI-s20" firstAttribute="leading" secondItem="Tvd-qg-aav" secondAttribute="leading" constant="8" id="9pR-Jq-Gi7"/>
+                                    <constraint firstAttribute="bottom" secondItem="stT-NI-s20" secondAttribute="bottom" constant="8" id="bD2-XZ-KGW"/>
+                                    <constraint firstItem="PxC-Xf-1iB" firstAttribute="leading" secondItem="Tvd-qg-aav" secondAttribute="leading" constant="8" id="f7e-aX-sJb"/>
+                                    <constraint firstAttribute="trailing" secondItem="rpt-cR-XcG" secondAttribute="trailing" constant="8" id="iym-cM-C7L"/>
+                                    <constraint firstAttribute="trailing" secondItem="stT-NI-s20" secondAttribute="trailing" constant="8" id="jX4-vJ-EaH"/>
+                                    <constraint firstItem="PxC-Xf-1iB" firstAttribute="top" secondItem="Tvd-qg-aav" secondAttribute="top" constant="8" id="r51-Ni-O5h"/>
+                                    <constraint firstItem="rpt-cR-XcG" firstAttribute="top" secondItem="PxC-Xf-1iB" secondAttribute="bottom" constant="20" id="xDy-r6-hEF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ZkU-7m-ra3" firstAttribute="top" secondItem="Tvd-qg-aav" secondAttribute="bottom" constant="20" id="Q8r-3L-vHF"/>
+                            <constraint firstItem="Tvd-qg-aav" firstAttribute="top" secondItem="bCJ-48-akt" secondAttribute="bottom" constant="20" id="QZy-Zf-fO8"/>
+                            <constraint firstItem="Tvd-qg-aav" firstAttribute="leading" secondItem="Xee-3u-uVZ" secondAttribute="leading" constant="20" id="giz-F9-TOK"/>
+                            <constraint firstAttribute="trailing" secondItem="Tvd-qg-aav" secondAttribute="trailing" constant="20" id="nDN-Us-tnJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="QrH-Zk-VWa">
+                        <barButtonItem key="leftBarButtonItem" title="About Corvallis ReUse" style="done" id="5Ua-9u-xkj">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="aP1-0n-oeK" userLabel="DropDownMenu">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="Ubb-Nb-1IT" id="E3I-OO-22j"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" width="20" id="AyP-ro-DPm" userLabel="Home">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="AcO-vS-CCq" kind="unwind" unwindAction="unwindToMainViewControllerWithSegue:" id="hPb-Yh-r4d"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CZb-ko-YQP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="AcO-vS-CCq" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4822" y="-1308"/>
+        </scene>
+        <!--Contact View Controller-->
+        <scene sceneID="MCv-Ts-8Uf">
+            <objects>
+                <viewController id="z3b-J9-mPE" userLabel="Contact View Controller" customClass="ContactViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n2C-OI-JDS"/>
+                        <viewControllerLayoutGuide type="bottom" id="rf5-O9-BqI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PaN-Fe-l0w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gDT-Hd-9AU">
+                                <rect key="frame" x="24" y="84" width="366" height="632"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Corvallis ReUse" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JU4-cE-twP" userLabel="ContactCSCLabel">
+                                        <rect key="frame" x="8" y="8" width="358" height="32"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JnC-CE-CIc" userLabel="AboutContact">
+                                        <rect key="frame" x="8" y="60" width="358" height="107.66666666666666"/>
+                                        <string key="text">The Corvallis Reuse and Repair Directory is provided by the Corvallis Sustainability Coalition. To add an organization or service to the directory or to update information included in the directory, contact the Corvallis Sustainability Coalition using the email below.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ndc-HF-jCN">
+                                        <rect key="frame" x="8" y="187.66666666666671" width="358" height="436.33333333333326"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="email_black" translatesAutoresizingMaskIntoConstraints="NO" id="Hlz-BK-xep" userLabel="Email">
+                                                <rect key="frame" x="20" y="8" width="25" height="25"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="2QR-wJ-Hsh"/>
+                                                    <constraint firstAttribute="height" constant="25" id="aLg-Tw-Rua"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="as1-bC-ro2" userLabel="CSCEmail">
+                                                <rect key="frame" x="60" y="6" width="290" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="info@sustainablecorvallis.org">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="email:" destination="z3b-J9-mPE" eventType="touchUpInside" id="Qpq-Ad-Fss"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="public_black" translatesAutoresizingMaskIntoConstraints="NO" id="a9a-x7-FKk" userLabel="Online">
+                                                <rect key="frame" x="20" y="53" width="25" height="25"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="BaT-V9-uFd"/>
+                                                    <constraint firstAttribute="height" constant="25" id="k2r-Id-o0t"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jgI-wK-8h9" userLabel="CSCOnlineURL">
+                                                <rect key="frame" x="60" y="51" width="290" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="http://sustainablecorvallis.org/">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onlineURL:" destination="z3b-J9-mPE" eventType="touchUpInside" id="W9X-oD-P89"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook_black" translatesAutoresizingMaskIntoConstraints="NO" id="D2w-OY-2hX" userLabel="Facebook">
+                                                <rect key="frame" x="20" y="98" width="25" height="25"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="bzs-Jq-par"/>
+                                                    <constraint firstAttribute="width" constant="25" id="lme-iD-9Bx"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="F3A-K7-pBB" userLabel="CSCFacebookURL">
+                                                <rect key="frame" x="60" y="96" width="290" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="https://www.facebook.com/SustainableCorvallis/">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="facebookURL:" destination="z3b-J9-mPE" eventType="touchUpInside" id="sZI-Ht-ebC"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_black" translatesAutoresizingMaskIntoConstraints="NO" id="qgy-gi-QNY" userLabel="Twitter">
+                                                <rect key="frame" x="20" y="143" width="25" height="25"/>
+                                                <color key="tintColor" red="0.27843137254901962" green="0.65098039215686276" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="Bpf-51-eHw"/>
+                                                    <constraint firstAttribute="width" constant="25" id="dx5-uP-Tff"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4bD-tf-l9E" userLabel="CSCTwitterURL">
+                                                <rect key="frame" x="60" y="141" width="290" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="https://twitter.com/sustaincorv">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="twitterURL:" destination="z3b-J9-mPE" eventType="touchUpInside" id="kzO-Yw-qkj"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="4bD-tf-l9E" secondAttribute="trailing" constant="8" id="4vl-LI-2CF"/>
+                                            <constraint firstItem="Hlz-BK-xep" firstAttribute="top" secondItem="Ndc-HF-jCN" secondAttribute="top" constant="8" id="98a-To-H18"/>
+                                            <constraint firstItem="jgI-wK-8h9" firstAttribute="leading" secondItem="a9a-x7-FKk" secondAttribute="trailing" constant="15" id="EeP-Eg-Eft"/>
+                                            <constraint firstAttribute="trailing" secondItem="F3A-K7-pBB" secondAttribute="trailing" constant="8" id="FGS-ZN-Voo"/>
+                                            <constraint firstAttribute="trailing" secondItem="jgI-wK-8h9" secondAttribute="trailing" constant="8" id="HYc-ta-xKJ"/>
+                                            <constraint firstItem="F3A-K7-pBB" firstAttribute="centerY" secondItem="D2w-OY-2hX" secondAttribute="centerY" id="N6r-dW-W3J"/>
+                                            <constraint firstItem="qgy-gi-QNY" firstAttribute="top" secondItem="D2w-OY-2hX" secondAttribute="bottom" constant="20" id="NG9-Ki-ojT"/>
+                                            <constraint firstItem="qgy-gi-QNY" firstAttribute="leading" secondItem="Ndc-HF-jCN" secondAttribute="leading" constant="20" id="P8M-rv-XdQ"/>
+                                            <constraint firstItem="as1-bC-ro2" firstAttribute="centerY" secondItem="Hlz-BK-xep" secondAttribute="centerY" id="P8v-eG-sJg"/>
+                                            <constraint firstItem="D2w-OY-2hX" firstAttribute="leading" secondItem="Ndc-HF-jCN" secondAttribute="leading" constant="20" id="Vkb-sa-lZI"/>
+                                            <constraint firstItem="Hlz-BK-xep" firstAttribute="leading" secondItem="Ndc-HF-jCN" secondAttribute="leading" constant="20" id="d6z-8h-OpK"/>
+                                            <constraint firstItem="4bD-tf-l9E" firstAttribute="centerY" secondItem="qgy-gi-QNY" secondAttribute="centerY" id="gz8-V9-Dxm"/>
+                                            <constraint firstItem="D2w-OY-2hX" firstAttribute="top" secondItem="a9a-x7-FKk" secondAttribute="bottom" constant="20" id="hlW-jb-4zZ"/>
+                                            <constraint firstItem="as1-bC-ro2" firstAttribute="leading" secondItem="Hlz-BK-xep" secondAttribute="trailing" constant="15" id="hww-cJ-sGP"/>
+                                            <constraint firstItem="a9a-x7-FKk" firstAttribute="top" secondItem="Hlz-BK-xep" secondAttribute="bottom" constant="20" id="lbF-cQ-gfg"/>
+                                            <constraint firstItem="4bD-tf-l9E" firstAttribute="leading" secondItem="qgy-gi-QNY" secondAttribute="trailing" constant="15" id="lhh-49-mkt"/>
+                                            <constraint firstItem="a9a-x7-FKk" firstAttribute="leading" secondItem="Ndc-HF-jCN" secondAttribute="leading" constant="20" id="mBd-I0-vGN"/>
+                                            <constraint firstItem="F3A-K7-pBB" firstAttribute="leading" secondItem="D2w-OY-2hX" secondAttribute="trailing" constant="15" id="qm0-Zg-dse"/>
+                                            <constraint firstAttribute="trailing" secondItem="as1-bC-ro2" secondAttribute="trailing" constant="8" id="rW0-CN-D3b"/>
+                                            <constraint firstItem="jgI-wK-8h9" firstAttribute="centerY" secondItem="a9a-x7-FKk" secondAttribute="centerY" id="uig-dZ-g5Z"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Ndc-HF-jCN" firstAttribute="top" secondItem="JnC-CE-CIc" secondAttribute="bottom" constant="20" id="29h-q3-ddM"/>
+                                    <constraint firstItem="JnC-CE-CIc" firstAttribute="leading" secondItem="gDT-Hd-9AU" secondAttribute="leading" constant="8" id="8eM-Wv-RJs"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ndc-HF-jCN" secondAttribute="trailing" id="8yG-4y-5wm"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ndc-HF-jCN" secondAttribute="bottom" constant="8" id="ERF-dP-6US"/>
+                                    <constraint firstItem="Ndc-HF-jCN" firstAttribute="leading" secondItem="gDT-Hd-9AU" secondAttribute="leading" constant="8" id="Myu-XZ-tgw"/>
+                                    <constraint firstItem="JU4-cE-twP" firstAttribute="top" secondItem="gDT-Hd-9AU" secondAttribute="top" constant="8" id="WGK-G7-gOE"/>
+                                    <constraint firstItem="JnC-CE-CIc" firstAttribute="top" secondItem="JU4-cE-twP" secondAttribute="bottom" constant="20" id="dgf-KM-i7b"/>
+                                    <constraint firstItem="JU4-cE-twP" firstAttribute="leading" secondItem="gDT-Hd-9AU" secondAttribute="leading" constant="8" id="lQ5-vK-BcY"/>
+                                    <constraint firstAttribute="trailing" secondItem="JU4-cE-twP" secondAttribute="trailing" id="vB8-fw-YbQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="JnC-CE-CIc" secondAttribute="trailing" id="yik-hx-8ZX"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gDT-Hd-9AU" firstAttribute="trailing" secondItem="PaN-Fe-l0w" secondAttribute="trailingMargin" constant="-4" id="19n-mj-gHn"/>
+                            <constraint firstItem="rf5-O9-BqI" firstAttribute="top" secondItem="gDT-Hd-9AU" secondAttribute="bottom" constant="20" id="Oxq-5C-tqa"/>
+                            <constraint firstItem="gDT-Hd-9AU" firstAttribute="top" secondItem="n2C-OI-JDS" secondAttribute="bottom" constant="20" id="PSR-OI-PYJ"/>
+                            <constraint firstItem="gDT-Hd-9AU" firstAttribute="leading" secondItem="PaN-Fe-l0w" secondAttribute="leadingMargin" constant="4" id="zQs-bS-Eds"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Kxl-1N-YRE">
+                        <barButtonItem key="leftBarButtonItem" title="Contact" style="done" id="ijL-Lu-sfK">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="5EC-vQ-RrR" userLabel="DropDownMenu">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="z3b-J9-mPE" id="EfM-QZ-HwF"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" id="5RE-il-kLA" userLabel="Home">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="ZcG-4W-9wL" kind="unwind" unwindAction="unwindToMainViewControllerWithSegue:" id="xOI-7D-C4X"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="emailButton" destination="as1-bC-ro2" id="brs-l7-Q9B"/>
+                        <outlet property="facebookURLButton" destination="F3A-K7-pBB" id="nsH-cC-aK0"/>
+                        <outlet property="onlineURLButton" destination="jgI-wK-8h9" id="3Z7-f2-ySI"/>
+                        <outlet property="twitterURLButton" destination="4bD-tf-l9E" id="665-dM-MvS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mML-iC-pBN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ZcG-4W-9wL" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5613" y="-1308"/>
+        </scene>
+        <!--Category Table View Controller-->
+        <scene sceneID="YIW-Le-b0P">
+            <objects>
+                <tableViewController id="D8d-rp-vsZ" userLabel="Category Table View Controller" customClass="CategoryTableViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3pu-3v-UrL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="D8d-rp-vsZ" id="kHe-kL-nN4"/>
+                            <outlet property="delegate" destination="D8d-rp-vsZ" id="c3l-5y-Rq4"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Nj2-Of-6P4">
+                        <barButtonItem key="leftBarButtonItem" title="Categories" style="done" id="5Bu-Me-w0a">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="AjX-8S-yHP" userLabel="DropDownMenu">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="D8d-rp-vsZ" id="WAL-Nf-jSQ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" id="7aQ-q8-okA" userLabel="Home">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="SQT-sX-Uaz" kind="unwind" unwindAction="unwindToMainViewControllerWithSegue:" id="c2i-Jn-GBa"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7nX-7p-bRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="SQT-sX-Uaz" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6446" y="-548"/>
+        </scene>
+        <!--Business List Table View Controller-->
+        <scene sceneID="yxd-1Y-mNy">
+            <objects>
+                <tableViewController id="Ivf-v9-BZQ" userLabel="Business List Table View Controller" customClass="BusinessListTableViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ooD-z5-2ME">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="Ivf-v9-BZQ" id="sj0-OC-W8b"/>
+                            <outlet property="delegate" destination="Ivf-v9-BZQ" id="gNz-pa-JpK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="sIV-N2-JBj">
+                        <barButtonItem key="leftBarButtonItem" title="Business List" style="done" id="b9r-hH-Qw6">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="Ses-cQ-UZJ" userLabel="DropDownMenu">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="Ivf-v9-BZQ" id="c4u-IN-aya"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" id="krZ-Z8-WX9" userLabel="Home">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="0DQ-h4-RbU" kind="unwind" unwindAction="unwindToMainViewControllerWithSegue:" id="zfa-f6-FwK"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d6J-FV-0dr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="0DQ-h4-RbU" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4822" y="226"/>
+        </scene>
+        <!--Business Details View Controller-->
+        <scene sceneID="wlc-4Q-vyV">
+            <objects>
+                <viewController id="CEh-Ee-Gz5" userLabel="Business Details View Controller" customClass="BusinessDetailsViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Zxj-Ex-PEg"/>
+                        <viewControllerLayoutGuide type="bottom" id="4ld-7L-yct"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Dc-yG-lrx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1x-fI-UYH">
+                                <rect key="frame" x="40" y="40" width="334" height="676"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arc Thrift Stores (Corvallis)" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4eu-oy-kXE" userLabel="BusinessName">
+                                        <rect key="frame" x="8" y="8" width="318" height="31.666666666666671"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mo-3I-xJO">
+                                        <rect key="frame" x="8" y="59.666666666666686" width="318" height="608.33333333333326"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="place_black" translatesAutoresizingMaskIntoConstraints="NO" id="Ug4-mN-bbQ" userLabel="Place">
+                                                <rect key="frame" x="8" y="8" width="25" height="24.999999999999986"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="1Tc-Hi-TWq"/>
+                                                    <constraint firstAttribute="height" constant="25" id="EXa-Gf-BmF"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="6ni-zU-g9o" userLabel="BusinessLocation">
+                                                <rect key="frame" x="48" y="6" width="262" height="28.999999999999986"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="928 NW Beca Ave, Corvallis OR, 97330">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="businessAddress:" destination="CEh-Ee-Gz5" eventType="touchUpInside" id="KnM-0g-Sbd"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone_black" translatesAutoresizingMaskIntoConstraints="NO" id="kKr-Zo-RRd" userLabel="Phone">
+                                                <rect key="frame" x="8" y="52.999999999999986" width="25" height="25"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="MGs-Df-2mG"/>
+                                                    <constraint firstAttribute="height" constant="25" id="dFz-hA-1aq"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xgb-vx-WIz" userLabel="BusinessPhone">
+                                                <rect key="frame" x="48" y="50.999999999999986" width="262" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="(541)754 9011">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="businessPhone:" destination="CEh-Ee-Gz5" eventType="touchUpInside" id="Ac6-Pm-NQQ"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="public_black" translatesAutoresizingMaskIntoConstraints="NO" id="lrB-fn-0F2" userLabel="Online">
+                                                <rect key="frame" x="8" y="97.999999999999986" width="25" height="25"/>
+                                                <color key="tintColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="CtE-9y-KcY"/>
+                                                    <constraint firstAttribute="height" constant="25" id="THT-ZP-Jua"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7lh-Vo-CR3" userLabel="BusinessURL">
+                                                <rect key="frame" x="48" y="95.999999999999986" width="262" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="http://www.arcbenton.org/">
+                                                    <color key="titleColor" red="0.2784313725" green="0.65098039220000004" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="businessURL:" destination="CEh-Ee-Gz5" eventType="touchUpInside" id="Cpw-pj-taj"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Ug4-mN-bbQ" firstAttribute="leading" secondItem="1mo-3I-xJO" secondAttribute="leading" constant="8" id="1N4-9L-ga9"/>
+                                            <constraint firstItem="kKr-Zo-RRd" firstAttribute="top" secondItem="Ug4-mN-bbQ" secondAttribute="bottom" constant="20" id="5bJ-cN-6VG"/>
+                                            <constraint firstItem="xgb-vx-WIz" firstAttribute="centerY" secondItem="kKr-Zo-RRd" secondAttribute="centerY" id="6Tj-eM-sWW"/>
+                                            <constraint firstItem="6ni-zU-g9o" firstAttribute="leading" secondItem="Ug4-mN-bbQ" secondAttribute="trailing" constant="15" id="8NL-Ld-2Lk"/>
+                                            <constraint firstItem="lrB-fn-0F2" firstAttribute="top" secondItem="kKr-Zo-RRd" secondAttribute="bottom" constant="20" id="EbF-GJ-59h"/>
+                                            <constraint firstItem="7lh-Vo-CR3" firstAttribute="leading" secondItem="lrB-fn-0F2" secondAttribute="trailing" constant="15" id="GNK-xp-EcV"/>
+                                            <constraint firstItem="lrB-fn-0F2" firstAttribute="leading" secondItem="1mo-3I-xJO" secondAttribute="leading" constant="8" id="MSd-89-AIZ"/>
+                                            <constraint firstItem="7lh-Vo-CR3" firstAttribute="centerY" secondItem="lrB-fn-0F2" secondAttribute="centerY" id="MlG-a1-WFq"/>
+                                            <constraint firstAttribute="trailing" secondItem="xgb-vx-WIz" secondAttribute="trailing" constant="8" id="SuB-Kt-emx"/>
+                                            <constraint firstAttribute="trailing" secondItem="7lh-Vo-CR3" secondAttribute="trailing" constant="8" id="gc1-tN-EFX"/>
+                                            <constraint firstAttribute="trailing" secondItem="6ni-zU-g9o" secondAttribute="trailing" constant="8" id="gc4-oI-6Bt"/>
+                                            <constraint firstItem="kKr-Zo-RRd" firstAttribute="leading" secondItem="1mo-3I-xJO" secondAttribute="leading" constant="8" id="ilz-vU-Ibb"/>
+                                            <constraint firstItem="xgb-vx-WIz" firstAttribute="leading" secondItem="kKr-Zo-RRd" secondAttribute="trailing" constant="15" id="v7V-1h-pvc"/>
+                                            <constraint firstItem="6ni-zU-g9o" firstAttribute="centerY" secondItem="Ug4-mN-bbQ" secondAttribute="centerY" id="xUQ-Ja-tsK"/>
+                                            <constraint firstItem="Ug4-mN-bbQ" firstAttribute="top" secondItem="1mo-3I-xJO" secondAttribute="top" constant="8" id="yyq-Lu-zVr"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="1mo-3I-xJO" firstAttribute="leading" secondItem="z1x-fI-UYH" secondAttribute="leading" constant="8" id="45R-IJ-gZg"/>
+                                    <constraint firstItem="1mo-3I-xJO" firstAttribute="top" secondItem="4eu-oy-kXE" secondAttribute="bottom" constant="20" id="4uL-lJ-CZk"/>
+                                    <constraint firstItem="4eu-oy-kXE" firstAttribute="leading" secondItem="z1x-fI-UYH" secondAttribute="leading" constant="8" id="5W3-Ak-UOb"/>
+                                    <constraint firstAttribute="trailing" secondItem="1mo-3I-xJO" secondAttribute="trailing" constant="8" id="5mC-Rh-CpK"/>
+                                    <constraint firstItem="4eu-oy-kXE" firstAttribute="top" secondItem="z1x-fI-UYH" secondAttribute="top" constant="8" id="Fj9-xh-Ovb"/>
+                                    <constraint firstAttribute="trailing" secondItem="4eu-oy-kXE" secondAttribute="trailing" constant="8" id="Utp-OJ-DCK"/>
+                                    <constraint firstAttribute="bottom" secondItem="1mo-3I-xJO" secondAttribute="bottom" constant="8" id="ce2-O0-YKk"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z1x-fI-UYH" firstAttribute="leading" secondItem="5Dc-yG-lrx" secondAttribute="leadingMargin" constant="20" id="68R-VK-lJD"/>
+                            <constraint firstItem="z1x-fI-UYH" firstAttribute="top" secondItem="Zxj-Ex-PEg" secondAttribute="bottom" constant="20" id="QHu-Xf-W3Z"/>
+                            <constraint firstItem="4ld-7L-yct" firstAttribute="top" secondItem="z1x-fI-UYH" secondAttribute="bottom" constant="20" id="WLC-0H-bPj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="z1x-fI-UYH" secondAttribute="trailing" constant="20" id="wfN-Oc-GaB"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oca-rn-yQ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7300.0000000000009" y="-546.19565217391312"/>
+        </scene>
+        <!--Sub-Category Table View Controller-->
+        <scene sceneID="YHW-TK-Spv">
+            <objects>
+                <tableViewController id="Lnp-7L-Aqk" userLabel="Sub-Category Table View Controller" customClass="SubCategoryTableViewController" customModule="CRRD" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zd0-br-9Bd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexBackgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="Lnp-7L-Aqk" id="2C4-vS-uU5"/>
+                            <outlet property="delegate" destination="Lnp-7L-Aqk" id="ZNa-gT-jee"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="0Ci-d6-XZW">
+                        <barButtonItem key="leftBarButtonItem" title="Repair Items" style="done" id="IYf-2e-jFr">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="three_dot_menu" id="YWt-bB-i6c" userLabel="DropDownMenu">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="dropDownMenu:" destination="Lnp-7L-Aqk" id="vUO-ZU-tmB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="home_white" id="aAQ-QT-G7G" userLabel="Home">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="D2g-0S-TYa" kind="unwind" unwindAction="unwindToMainViewControllerWithSegue:" id="cMw-YM-UVh"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qvM-ZG-5gk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="D2g-0S-TYa" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5614" y="-548"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="BCd-yQ-HNO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mbr-1d-QWT" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="414" height="736"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4CS-eH-utX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.30980392159999998" green="0.36078431370000003" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="65w-hH-H8p"/>
+                        <segue destination="Ubb-Nb-1IT" kind="show" identifier="showAbout" id="wMk-ib-RaN"/>
+                        <segue destination="z3b-J9-mPE" kind="show" identifier="showContact" id="z8B-8v-77F"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="84c-xl-VtK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3882.4000000000001" y="-545.57721139430294"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="check_box_black" width="32" height="32"/>
+        <image name="email_black" width="32" height="32"/>
+        <image name="facebook_black" width="32" height="32"/>
+        <image name="home_white" width="32" height="32"/>
+        <image name="phone_black" width="32" height="32"/>
+        <image name="place_black" width="32" height="32"/>
+        <image name="public_black" width="32" height="32"/>
+        <image name="three_dot_menu" width="40" height="40"/>
+        <image name="twitter_black" width="32" height="32"/>
+    </resources>
+</document>
