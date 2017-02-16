@@ -7,11 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
 class SubCategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
+    private var subCategoryList: [SubcategoryMO] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Load Subcategories from database
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let request: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
+            let context = appDelegate.persistentContainer.viewContext
+            do {
+                subCategoryList = try context.fetch(request)
+            } catch {
+                print("Failed to retrieve record")
+                print(error)
+            }
+        }
         
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -37,23 +52,27 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
+    
+    
     //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
+    
+    
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return subCategoryList.count
+    }
+
+    
     
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

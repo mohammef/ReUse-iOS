@@ -7,11 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
-class CategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
+class CategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate, XMLParserDelegate {
+    
+    private var categoryList: [CategoryMO] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Load Categories from database
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let request: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
+            let context = appDelegate.persistentContainer.viewContext
+            do {
+                categoryList = try context.fetch(request)
+            } catch {
+                print("Failed to retrieve record")
+                print(error)
+            }
+        }
+        
         
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -37,33 +54,35 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
     }
+    
+    //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
-    
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
         
+        return categoryList.count
+    }
+
+    
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = categoryList[indexPath.row].categoryName
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

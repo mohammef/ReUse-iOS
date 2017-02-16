@@ -39,8 +39,5 @@ class DropDownMenuViewController: UIViewController, UIPopoverPresentationControl
         //is anchored to a navigation bar button
         self.presentingViewController!.performSegue(withIdentifier: "showContact", sender: self)
     }
-    
-    
-    
 
 }

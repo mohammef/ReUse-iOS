@@ -7,11 +7,27 @@
 //
 
 import UIKit
+import CoreData
 
 class BusinessListTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
+    private var businessList: [BusinessMO] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Load Businesses from database
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let request: NSFetchRequest<BusinessMO> = BusinessMO.fetchRequest()
+            let context = appDelegate.persistentContainer.viewContext
+            do {
+                businessList = try context.fetch(request)
+            } catch {
+                print("Failed to retrieve record")
+                print(error)
+            }
+        }
+
         
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -42,12 +58,12 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return businessList.count
     }
 
     //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone

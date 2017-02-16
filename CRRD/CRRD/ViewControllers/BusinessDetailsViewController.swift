@@ -52,6 +52,11 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
 
     @IBAction func businessAddress(_ sender: Any) {
         //928 NW Beca Ave, Corvallis OR, 97330
+        let baseUrl: String = "http://maps.apple.com/?q="
+        let encodedName = "928 NW Beca Ave Corvallis OR 97330"
+        let finalUrl = baseUrl + encodedName
+        UIApplication.shared.open(NSURL(string: finalUrl)! as URL)
+        
     }
     
     @IBAction func businessPhone(_ sender: Any) {
