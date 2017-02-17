@@ -2,8 +2,8 @@
 //  BusinessDetailsViewController.swift
 //  CRRD
 //
-//  Created by Fahmy Mohammed on 2/10/17.
-//  Copyright © 2017 CS467 F17 - Team Reticulum. All rights reserved.
+//  Created by Fahmy Mohammed on 2/02/17.
+//  Copyright © 2017 CS467 W17 - Team Reticulum. All rights reserved.
 //
 
 import UIKit
@@ -12,13 +12,25 @@ import CoreData
 
 class BusinessDetailsViewController: UIViewController, UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate {
 
+    @IBOutlet weak var businessNameLabel: UILabel!
+    @IBOutlet weak var businessURLButton: UIButton!
+    @IBOutlet weak var businessAddressButton: UIButton!
+    @IBOutlet weak var businessPhoneButton: UIButton!
     var business: BusinessMO! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        businessNameLabel.text = business.name
+        //businessURLButton.titleLabel?.text = business.website
+        //businessAddressButton.titleLabel?.text = business.address_line_1
+        //businessPhoneButton.titleLabel?.text = business.phone
+        
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Set navigation bar label to business name
+        self.navigationItem.leftBarButtonItem?.title = business.name
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,17 +62,18 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         return UIModalPresentationStyle.none
     }
 
-    //Action that runs CSC URL
+    
     @IBAction func businessURL(_ sender: Any) {
-        UIApplication.shared.open(NSURL(string: "http://www.arcbenton.org/")! as URL)
+        //UIApplication.shared.open(NSURL(string: "http://www.arcbenton.org/")! as URL)
     }
 
     @IBAction func businessAddress(_ sender: Any) {
-        //928 NW Beca Ave, Corvallis OR, 97330
+        /*
         let baseUrl: String = "http://maps.apple.com/?q="
         let encodedName = "928 NW Beca Ave Corvallis OR 97330"
         let finalUrl = baseUrl + encodedName
         UIApplication.shared.open(NSURL(string: finalUrl)! as URL)
+        */
         
     }
     

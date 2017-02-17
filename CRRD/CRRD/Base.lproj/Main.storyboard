@@ -510,7 +510,7 @@
                     <tableView key="view" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3pu-3v-UrL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <color key="sectionIndexBackgroundColor" red="0.59999999999999998" green="0.69803921570000005" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -772,6 +772,12 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="businessAddressButton" destination="6ni-zU-g9o" id="QsZ-7a-LrQ"/>
+                        <outlet property="businessNameLabel" destination="4eu-oy-kXE" id="8rJ-Te-YOU"/>
+                        <outlet property="businessPhoneButton" destination="xgb-vx-WIz" id="nT3-ff-jcA"/>
+                        <outlet property="businessURLButton" destination="7lh-Vo-CR3" id="EB9-NW-qKg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oca-rn-yQ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4rv-mB-71b" userLabel="Exit" sceneMemberID="exit"/>
@@ -879,7 +885,7 @@
         <image name="twitter_black" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gvl-rZ-k2f"/>
-        <segue reference="Oon-4L-lKq"/>
+        <segue reference="xaX-zP-iKh"/>
+        <segue reference="Zjj-Ug-TUG"/>
     </inferredMetricsTieBreakers>
 </document>

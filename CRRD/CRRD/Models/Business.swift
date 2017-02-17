@@ -3,10 +3,9 @@
 //  CRRD
 //
 //  Created by Fahmy Mohammed on 2/07/17.
-//  Copyright © 2017 CS467 F17 - Team Reticulum. All rights reserved.
+//  Copyright © 2017 CS467 W17 - Team Reticulum. All rights reserved.
 //
 
-//import Foundation
 import UIKit
 
 //Model for business

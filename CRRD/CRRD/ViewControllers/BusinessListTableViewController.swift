@@ -3,7 +3,7 @@
 //  CRRD
 //
 //  Created by Fahmy Mohammed on 1/30/17.
-//  Copyright © 2017 Fahmy Mohammed - Team Reticulum. All rights reserved.
+//  Copyright © 2017 CS467 W17 - Team Reticulum. All rights reserved.
 //
 
 import UIKit
@@ -27,14 +27,13 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
             //Refine request to businesses from a particular category
             if subcategory != nil && category != nil {
                 //Refine request. In this case, return all business of given subcategory
-                let predicate = NSPredicate(format: "%K == %@", "category.categoryName", category.categoryName!)
-                
+                let predicate = NSPredicate(format: "category.categoryName CONTAINS[cd] %@", category.categoryName!)
                 request.predicate = predicate
             }
         
             //Sort results by business name
-            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-            request.sortDescriptors = [sortDescriptor]
+            //let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            //request.sortDescriptors = [sortDescriptor]
         
             do {
                 businessList = try context.fetch(request)

@@ -3,7 +3,7 @@
 //  CRRD
 //
 //  Created by Fahmy Mohammed on 1/30/17.
-//  Copyright © 2017 Fahmy Mohammed - Team Reticulum. All rights reserved.
+//  Copyright © 2017 CS467 W17 - Team Reticulum. All rights reserved.
 //
 
 import UIKit
@@ -30,9 +30,23 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
             //Sort results by subcategory name
             let sortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
             request.sortDescriptors = [sortDescriptor]
+            request.returnsDistinctResults = true
             
             do {
-                subCategoryList = try context.fetch(request)
+                let temp = try context.fetch(request)
+                
+                //Remove duplicate results
+                for item in temp {
+                    var index = 0;
+                    for subCat in subCategoryList {
+                        if subCat.subCategoryName == item.subCategoryName {
+                            subCategoryList.remove(at: index)
+                        }
+                        index += 1
+                    }
+                    subCategoryList.append(item)
+                }
+                
             } catch {
                 print("Failed to retrieve record")
                 print(error)
@@ -41,6 +55,9 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
         
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Set navigation bar label to category name
+        self.navigationItem.leftBarButtonItem?.title = category.categoryName
     }
 
     override func didReceiveMemoryWarning() {

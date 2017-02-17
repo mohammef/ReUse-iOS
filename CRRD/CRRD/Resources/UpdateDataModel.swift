@@ -3,7 +3,7 @@
 //  CRRD
 //
 //  Created by Fahmy Mohammed on 2/10/17.
-//  Copyright © 2017 CS467 F17 - Team Reticulum. All rights reserved.
+//  Copyright © 2017 CS467 W17 - Team Reticulum. All rights reserved.
 //
 
 import CoreData
