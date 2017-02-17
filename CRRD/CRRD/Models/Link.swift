@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Model for link
 class Link: NSObject {
     
     var name: String! = nil

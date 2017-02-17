@@ -18,6 +18,9 @@ class DropDownMenuViewController: UIViewController, UIPopoverPresentationControl
         super.didReceiveMemoryWarning()
     }
     
+    
+    //MARK: - Navigation
+    
     //Action that is run when about button is clicked
     //Dismisses the drop down menu and navigates to the AboutViewController
     @IBAction func aboutButton(_ sender: Any) {

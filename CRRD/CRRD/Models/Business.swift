@@ -9,6 +9,7 @@
 //import Foundation
 import UIKit
 
+//Model for business
 class Business: NSObject {
     
     var name: String! = nil
@@ -59,6 +60,8 @@ class Business: NSObject {
         self.linkList = business.linkList
     }
     
+    /*
+    //For Testing
     func printBusinessDetails() {
         
         print("-----------------------------------")
@@ -92,5 +95,6 @@ class Business: NSObject {
             print("-----------------------------------")
         }
     }
+ */
 }
 

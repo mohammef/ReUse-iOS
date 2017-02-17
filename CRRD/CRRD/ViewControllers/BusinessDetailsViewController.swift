@@ -8,9 +8,12 @@
 
 import UIKit
 import MessageUI
+import CoreData
 
 class BusinessDetailsViewController: UIViewController, UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate {
 
+    var business: BusinessMO! = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,8 +23,10 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
+    
+    
+    //MARK: - Navigation
     
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
@@ -62,5 +67,4 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
     @IBAction func businessPhone(_ sender: Any) {
         //(541)754 9011
     }
-    
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Model for category
 class Category: NSObject {
     
     var name: String! = nil
@@ -32,10 +33,12 @@ class Category: NSObject {
             self.businesses.append(tmpBusinessID)
         }
     }
-    
+    /*
+    //For Testing
     func printSubCategoryList() {
         for item in self.subcategoryList {
             print("     subcategory: " + item)
         }
     }
+    */
 }

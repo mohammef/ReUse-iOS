@@ -10,8 +10,10 @@ import Foundation
 import UIKit
 
 
-
+//Stores colors and theme of app
 class Utils {
+    
+    //Colors used throught the app
     struct Colors {
         static func UIColorFromRGB(rgbValue: UInt) -> UIColor {
             return UIColor(

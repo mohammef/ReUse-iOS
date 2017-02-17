@@ -6,9 +6,10 @@
 //  Copyright © 2017 CS467 F17 - Team Reticulum. All rights reserved.
 //
 
-import UIKit
 import CoreData
 
+
+//Parses XML representation of database and returns array of business objects containing context from XML file
 class ParseXML: NSObject, XMLParserDelegate {
     
     private var businessList: [Business] = []
@@ -19,17 +20,23 @@ class ParseXML: NSObject, XMLParserDelegate {
     private var currentContent = ""
     override init() {}
     
-    func parseXMLFile() -> Void{
+    //Parse XML file containing database data
+    func parseXMLFile() -> [Business] {
         let xmlFilePath = Bundle.main.url(forResource: "reuseDB", withExtension: ".xml")
+        
+        //Initialize and start parsing
         let parser = XMLParser(contentsOf: xmlFilePath!)
         parser?.delegate = self
         parser?.parse()
+        
+        return businessList //Contains parsed XML file as Business objects
     }
     
     
-    
+    //Start of given element tag
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
+        //Handle different cases for start of business, category and link tags
         switch elementName {
         case "business":
             topElement = elementName
@@ -45,13 +52,20 @@ class ParseXML: NSObject, XMLParserDelegate {
         currentContent = ""
     }
     
+    
+    //Append all content found between tags to currentContent
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentContent += string
     }
     
+    
+    //End of given element tag
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
+        //End of business tag
         if topElement == "business" {
+            
+            //Place content at each tag in correct location inside temp Business object
             switch elementName {
             case "name":
                 tmpBusiness.name = currentContent
@@ -75,6 +89,8 @@ class ParseXML: NSObject, XMLParserDelegate {
                 tmpBusiness.latitude = Double(currentContent)
             case "longitude":
                 tmpBusiness.longitude = Double(currentContent)
+                
+            //Add Business object to business list
             case "business":
                 let business  = Business(business: tmpBusiness)
                 businessList.append(business)
@@ -82,8 +98,10 @@ class ParseXML: NSObject, XMLParserDelegate {
             }
         }
         
-        
+        //End of category tag
         if topElement == "category" {
+            
+            //Place content between each tag in correct location inside Category object
             switch elementName {
             case "name":
                 tmpCategory.name = currentContent
@@ -91,6 +109,8 @@ class ParseXML: NSObject, XMLParserDelegate {
                 var tmpSubCategory = String()
                 tmpSubCategory = currentContent
                 tmpCategory.subcategoryList.append(tmpSubCategory)
+                
+            //Add to category to temp Business object
             case "category":
                 topElement = "business"
                 let category = Category(category: tmpCategory)
@@ -99,12 +119,16 @@ class ParseXML: NSObject, XMLParserDelegate {
             }
         }
         
+        
         if topElement == "link" {
+            //Place content between each tag in correct location inside Link object
             switch elementName {
             case "name":
                 tmpLink.name = currentContent
             case "URI":
                 tmpLink.uri = currentContent
+            
+            //Add to link temp Business object
             case "link":
                 topElement = "business"
                 let link = Link(link: tmpLink)
@@ -112,13 +136,16 @@ class ParseXML: NSObject, XMLParserDelegate {
             default: break
             }
         }
-        
     }
     
+    
+    //End of XML document
     func parserDidEndDocument(_ parser: XMLParser) {
-        printBusinessList()
+        //printBusinessList()
     }
     
+    /*
+    //For Testing
     func printBusinessList() {
         var count = 0
         for item in businessList {
@@ -128,6 +155,5 @@ class ParseXML: NSObject, XMLParserDelegate {
             count += 1
         }
     }
-    
-    
+     */
 }

@@ -26,6 +26,7 @@
 		9E82FE9B1E4E2E2C007E7D2B /* BusinessDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E82FE9A1E4E2E2C007E7D2B /* BusinessDetailsViewController.swift */; };
 		9EA056861E51D89E00B83630 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA056851E51D89E00B83630 /* Business.swift */; };
 		9ECC99FD1E4C827500503CD2 /* DropDownMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECC99FC1E4C827500503CD2 /* DropDownMenuViewController.swift */; };
+		9EE4FF7F1E56C9B900F87311 /* UpdateDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE4FF7E1E56C9B900F87311 /* UpdateDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		9E82FE9A1E4E2E2C007E7D2B /* BusinessDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessDetailsViewController.swift; path = ViewControllers/BusinessDetailsViewController.swift; sourceTree = "<group>"; };
 		9EA056851E51D89E00B83630 /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Business.swift; path = CRRD/Models/Business.swift; sourceTree = "<group>"; };
 		9ECC99FC1E4C827500503CD2 /* DropDownMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropDownMenuViewController.swift; path = ViewControllers/DropDownMenuViewController.swift; sourceTree = "<group>"; };
+		9EE4FF7E1E56C9B900F87311 /* UpdateDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateDataModel.swift; path = Resources/UpdateDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				9E52EB011E49C000002907AA /* Strings.plist */,
 				9E52EB021E49C000002907AA /* Utils.swift */,
 				9E48753E1E544F2700EA203E /* ParseXML.swift */,
+				9EE4FF7E1E56C9B900F87311 /* UpdateDataModel.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				9EA056861E51D89E00B83630 /* Business.swift in Sources */,
 				9E48753F1E544F2700EA203E /* ParseXML.swift in Sources */,
 				9E52EB041E49C000002907AA /* Utils.swift in Sources */,
+				9EE4FF7F1E56C9B900F87311 /* UpdateDataModel.swift in Sources */,
 				9E52EB0C1E49C017002907AA /* BusinessListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

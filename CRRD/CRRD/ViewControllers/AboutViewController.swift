@@ -21,6 +21,9 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
         super.didReceiveMemoryWarning()
     }
     
+
+    //MARK: - Navigation
+    
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
         
@@ -42,5 +45,4 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
-
 }

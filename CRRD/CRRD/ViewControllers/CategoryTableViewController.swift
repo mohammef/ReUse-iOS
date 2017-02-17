@@ -9,18 +9,27 @@
 import UIKit
 import CoreData
 
-
-class CategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate, XMLParserDelegate {
+class CategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
     private var categoryList: [CategoryMO] = []
+    private var selectedCategory: CategoryMO! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Load Categories from database
+        //Load Categories from database
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
             let request: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
             let context = appDelegate.persistentContainer.viewContext
+            
+            //Create Predicate to refine request. In this case, remove "Repair Items" from results
+            let predicate = NSPredicate(format: "%K != %@", "categoryName", "Repair Items")
+            request.predicate = predicate
+            
+            //Sort results by category name
+            let sortDescriptor = NSSortDescriptor(key: "categoryName", ascending: true)
+            request.sortDescriptors = [sortDescriptor]
+            
             do {
                 categoryList = try context.fetch(request)
             } catch {
@@ -29,7 +38,6 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
             }
         }
         
-        
         //Hide back button from the navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
     }
@@ -37,6 +45,9 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
+    //MARK: - Navigation
     
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
@@ -60,73 +71,37 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
         return UIModalPresentationStyle.none
     }
 
+    //Segue to SubCategoryTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSubcategory" {
+            let subCategoryVC = segue.destination as! SubCategoryTableViewController
+            subCategoryVC.category = selectedCategory
+        }
+    }
+    
+    
     // MARK: - Table view data source
-
+    
+    //Number of TableView sections
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
+    //Number of rows in TableView section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
         return categoryList.count
     }
 
-    
-    
-    
+    //List category names from results
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = categoryList[indexPath.row].categoryName
-
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    //Perform action for selected category
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedCategory = categoryList[indexPath.row]
+        performSegue(withIdentifier: "showSubcategory", sender: self)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

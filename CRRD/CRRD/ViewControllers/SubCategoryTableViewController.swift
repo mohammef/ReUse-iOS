@@ -12,6 +12,8 @@ import CoreData
 class SubCategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
     private var subCategoryList: [SubcategoryMO] = []
+    private var selectedSubcategory: SubcategoryMO! = nil
+    var category: CategoryMO! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,15 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
             let request: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
             let context = appDelegate.persistentContainer.viewContext
+            
+            //Refine request. In this case, return all subcategories of given category
+            let predicate = NSPredicate(format: "%K == %@", "category.categoryName", category.categoryName!)
+            request.predicate = predicate
+            
+            //Sort results by subcategory name
+            let sortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
+            request.sortDescriptors = [sortDescriptor]
+            
             do {
                 subCategoryList = try context.fetch(request)
             } catch {
@@ -35,6 +46,9 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
+    //MARK: - Navigation
     
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
@@ -53,80 +67,43 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
         self.present(dropDownView, animated: false, completion: nil)
     }
     
-    
-    //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone
+    //UIPopoverPresentationController delegate method. Forces popover instead of modal presentation for iphone
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
     
+    //Segue to BusinessListTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showBusinessList" {
+            let businessListVC = segue.destination as! BusinessListTableViewController
+            businessListVC.subcategory = selectedSubcategory
+            businessListVC.category = category
+        }
+    }
+    
     
     // MARK: - Table view data source
-
+    
+    //Number of TableView sections
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
+    //Number of rows in TableView section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return subCategoryList.count
     }
 
-    
-    
-    /*
+    //List subcategories from results
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = subCategoryList[indexPath.row].subCategoryName
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+ 
+    //Perform action for selected subcategory
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedSubcategory = subCategoryList[indexPath.row]
+        performSegue(withIdentifier: "showBusinessList", sender: self)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

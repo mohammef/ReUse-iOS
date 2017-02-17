@@ -28,6 +28,9 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         super.didReceiveMemoryWarning()
     }
     
+    
+    //MARK: - Navigation
+    
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
         
@@ -50,7 +53,7 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         return UIModalPresentationStyle.none
     }
     
-    //Action that is run when CSC email link is pressed
+    //Action performed when CSC email link is pressed
     @IBAction func email(_ sender: Any) {
         //Reference to mail compose view controller
         let mailCompose = MFMailComposeViewController()
@@ -70,19 +73,18 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         self.dismiss(animated: true, completion: nil) //Dismiss mail compose view
     }
 
-    //Action that runs CSC URL
+    //Action performed when CSC URL is pressed
     @IBAction func onlineURL(_ sender: Any) {
         UIApplication.shared.open(NSURL(string: "http://sustainablecorvallis.org/")! as URL)
     }
 
-    //Action that runs CSC facebook URL
+    //Action performed when CSC facebook URL is pressed
     @IBAction func facebookURL(_ sender: Any) {
         UIApplication.shared.open(NSURL(string: "https://www.facebook.com/SustainableCorvallis/")! as URL)
     }
     
-    //Action that runs CSC twitter URL
+    //Action performed when CSC twitter URL is pressed
     @IBAction func twitterURL(_ sender: Any) {
         UIApplication.shared.open(NSURL(string: "https://twitter.com/sustaincorv")! as URL)
     }
-    
 }
