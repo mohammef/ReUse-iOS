@@ -45,20 +45,17 @@ class Utils {
     
     static func appTheme() {
         
-        //let navigationBar = UINavigationBar.appearance()
+        UIApplication.shared.statusBarStyle = .lightContent
         
-        
-        let view = UIView.appearance()
-        view.backgroundColor = Colors.cscGreenLight
+        let navigationBar = UINavigationBar.appearance()
+        navigationBar.barTintColor = Colors.cscGreenDark
+        navigationBar.tintColor = UIColor.white
     
-        let button = UIButton.appearance()
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = Colors.cscGreenDark
-        button.layer.cornerRadius = Styles.roundedButtonCornerRadius
+    
+        let tableView = UITableView.appearance()
+        tableView.estimatedRowHeight = 36
+        tableView.rowHeight = UITableViewAutomaticDimension
         
-        let label = UILabel.appearance()
-        //labelMain.font = Styles.labelFontMain
-        label.textColor = UIColor.black
         
     }
     

@@ -11,7 +11,9 @@ import UIKit
 
 class UpdateDataModel {
     
+    /***********************************************************************************/
     //Clear all records from a given entity
+    /***********************************************************************************/
     static func clearEntityRecords(entity: String) {
         
         // Load entity from database
@@ -28,7 +30,9 @@ class UpdateDataModel {
         }
     }
     
+    /***********************************************************************************/
     //Populate Business, Category, and Subcategory entities using data parsed from xml file
+    /***********************************************************************************/
     static func addToBusinessMO(businessList: [Business]) {
         
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -57,90 +61,126 @@ class UpdateDataModel {
                 if business.categoryList.count > 0 {
                     
                     //Create fetch request for all records in Category MO
-                    let request: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
+                    let categoryRequest: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
                     
                     do {
                         //Fetch all records in the Category MO
-                        let categoryListResult = try context.fetch(request) //Execute fetch request
-                        var categoryResultIndex: Int
+                        let categoryListResult = try context.fetch(categoryRequest) //Execute fetch request
 
                         //Process each catagory the business belongs to
-                        for category in business.categoryList {
-                            var categoryFound = false
-                            categoryResultIndex = 0
+                        for businessCategoryListItem in business.categoryList {
                             
-                            //Search through Category entity results to see if category exists
-                            for categoryResult in categoryListResult {
-                                
-                                //Category found in Category MO
-                                if categoryResult.categoryName == category.name {
-                                    categoryFound = true
-                                    break
+                            //Get category from Category MO or create new category if it doesn't exist
+                            let category = getCategory(categoryList: categoryListResult, category: businessCategoryListItem, context: context)
+                            
+                            //Create relationship between category and business
+                            category.addToBusiness(newBusiness)
+                            
+                            //Category has subcategories
+                            if businessCategoryListItem.subcategoryList.count > 0 {
+                                /*
+                                //Process each subcategory
+                                for subCategory in businessCategoryListItem.subcategoryList {
+                                    
+                                    //Create new subcategory and add it to Subcategory MO
+                                    let newSubCategory = SubcategoryMO(context: context)
+                                    newSubCategory.subCategoryName = subCategory
+                                    
+                                    //Create relationship between category and subcategory
+                                    category.addToSubcategory(newSubCategory)
                                 }
-                                categoryResultIndex += 1
-                            }
-                            
-                            //Add business to existing category
-                            if categoryFound {
+                                */
                                 
-                                //Create relationship between category and Business
-                                categoryListResult[categoryResultIndex].addToBusiness(newBusiness)
-                            
-                                //Category has subcategories
-                                if category.subcategoryList.count > 0 {
+                                //Create fetch request for all records in Subcategory MO
+                                let subcategoryRequest: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
+                                
+                                do {
+                                    //Fetch all records in the Subcategory MO
+                                    let subcategoryListResult = try context.fetch(subcategoryRequest)
                                     
                                     //Process each subcategory
-                                    for subCategory in category.subcategoryList {
+                                    for subCategoryListItem in businessCategoryListItem.subcategoryList {
                                         
-                                        //Create new subcategory and add it to Subcategory MO
-                                        let newSubCategory = SubcategoryMO(context: context)
-                                        newSubCategory.subCategoryName = subCategory
+                                        //Get subcategory from Subcategory MO or create new subcategory if it doesn't exist
+                                        let subCategory = getSubcategory(subCategoryList: subcategoryListResult, subCategory: subCategoryListItem, context: context)
+                                        
+                                        //Create relationship between subcategory and business
+                                        subCategory.addToBusiness(newBusiness)
                                         
                                         //Create relationship between category and subcategory
-                                        categoryListResult[categoryResultIndex].addToSubcategory(newSubCategory)
+                                        //category.addToSubcategory(subCategory)
+                                        subCategory.addToCategory(category)
+                                        
+                                        
                                     }
+                                } catch {
+                                    //Failed to fetch records from Subcategory MO
+                                    print("Failed to retrieve record")
+                                    print(error)
                                 }
-                            
-                            } else { //Add business to new category
-                                
-                                //Create new category and add it to Category MO
-                                let newCategory = CategoryMO(context: context)
-                                newCategory.categoryName = category.name
-                                
-                                //Create relationship between category and business
-                                newCategory.addToBusiness(newBusiness)
-                                
-                                //Category has subcategories
-                                if category.subcategoryList.count > 0 {
                                     
-                                    //Process each subcategory
-                                    for subCategory in category.subcategoryList {
-                                        
-                                        //Create new subcategory and add it to Subcategory MO
-                                        let newSubCategory = SubcategoryMO(context: context)
-                                        newSubCategory.subCategoryName = subCategory
-                                        
-                                        //Create relationship between category and subcategory
-                                        newCategory.addToSubcategory(newSubCategory)
-                                    }
-                                }
+                                
                             }
                         }
                         
+                        
                     } catch {
-                        //Failed to fetch records from Category entity
+                        //Failed to fetch records from Category MO
                         print("Failed to retrieve record")
                         print(error)
                     }
                 }
                 
-                //Save all records in Core Data Model
-                do {
-                    try context.save()
-                } catch {
-                    print(error)
-                }
+                //Save all records in core data model
+                do { try context.save() } catch { print(error) }
             }
         }
     }
+    
+    /***********************************************************************************/
+    //Search through Category MO for a category. 
+    //If it exits, return it. Otherwise, create and return new category
+    /***********************************************************************************/
+    private static func getCategory(categoryList: [CategoryMO],
+                                    category: Category,
+                                    context: NSManagedObjectContext) -> CategoryMO {
+        
+        //Search through Category MO results to see if category exists
+        for categoryListItem in categoryList {
+
+            //Category found in Category MO
+            if categoryListItem.categoryName == category.name {
+                return categoryListItem
+            }
+        }
+        
+        //Category not found. Create new category and add it to Category MO
+        let newCategory = CategoryMO(context: context)
+        newCategory.categoryName = category.name
+        return newCategory
+    }
+    
+    /***********************************************************************************/
+    //Search through Subcategory MO for a subcategory.
+    //If it exits, return it. Otherwise, create and return new subcategory
+    /***********************************************************************************/
+    private static func getSubcategory(subCategoryList: [SubcategoryMO],
+                                       subCategory: String,
+                                       context: NSManagedObjectContext) -> SubcategoryMO {
+        
+        //Search through Subcategory MO results to see if subcategory exists
+        for subCategoryListItem in subCategoryList {
+            
+            //Category found in Subcategory MO
+            if subCategoryListItem.subCategoryName == subCategory {
+                return subCategoryListItem
+            }
+        }
+        
+        //Subcategory not found. Create new subcategory and add it to Subcategory MO
+        let newSubCategory = SubcategoryMO(context: context)
+        newSubCategory.subCategoryName = subCategory
+        return newSubCategory
+    }
+    
 }

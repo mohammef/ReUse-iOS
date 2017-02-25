@@ -11,53 +11,15 @@ import CoreData
 
 class SubCategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
+    @IBOutlet weak var viewLabel: UILabel!
     private var subCategoryList: [SubcategoryMO] = []
     private var selectedSubcategory: SubcategoryMO! = nil
     var category: CategoryMO! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Load Subcategories from database
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let request: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
-            let context = appDelegate.persistentContainer.viewContext
-            
-            //Refine request. In this case, return all subcategories of given category
-            let predicate = NSPredicate(format: "%K == %@", "category.categoryName", category.categoryName!)
-            request.predicate = predicate
-            
-            //Sort results by subcategory name
-            let sortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
-            request.sortDescriptors = [sortDescriptor]
-            request.returnsDistinctResults = true
-            
-            do {
-                let temp = try context.fetch(request)
-                
-                //Remove duplicate results
-                for item in temp {
-                    var index = 0;
-                    for subCat in subCategoryList {
-                        if subCat.subCategoryName == item.subCategoryName {
-                            subCategoryList.remove(at: index)
-                        }
-                        index += 1
-                    }
-                    subCategoryList.append(item)
-                }
-                
-            } catch {
-                print("Failed to retrieve record")
-                print(error)
-            }
-        }
-        
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        
-        //Set navigation bar label to category name
-        self.navigationItem.leftBarButtonItem?.title = category.categoryName
+        viewTheme()
+        loadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,10 +27,25 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
     }
     
     
+    //MARK: - Theme
+    
+    //Adjusts look of items in view
+    func viewTheme(){
+        //Hide back button from the navigation bar
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Hide separtor lines after empty cells in table view
+        self.tableView.tableFooterView = UIView()
+        
+        //Set left navigation bar label to category name
+        viewLabel.text = category.categoryName
+    }
+    
+    
     //MARK: - Navigation
     
     //Button action that displays the drop down menu
-    @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
+    @IBAction func dropDownMenu(_ sender: UIButton) {
         
         //Reference to drop down menu view controller
         let dropDownView = (storyboard?.instantiateViewController(withIdentifier: "DropDownMenuViewController"))!
@@ -78,7 +55,8 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
         
         //Setup popover presentation controller
         dropDownView.popoverPresentationController?.delegate = self
-        dropDownView.popoverPresentationController?.barButtonItem = sender
+        dropDownView.popoverPresentationController?.sourceView = sender
+        dropDownView.popoverPresentationController?.sourceRect = sender.bounds
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
@@ -100,6 +78,31 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
     
     
     // MARK: - Table view data source
+    
+    //Load from core data model
+    func loadData() {
+        
+        // Load Subcategories from core data model
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let request: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
+            let context = appDelegate.persistentContainer.viewContext
+            
+            //Refine request. In this case, return all subcategories of given category
+            let predicate = NSPredicate(format: "category.categoryName CONTAINS[cd] %@", category.categoryName!)
+            request.predicate = predicate
+            
+            //Sort results by subcategory name
+            let sortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
+            request.sortDescriptors = [sortDescriptor]
+            
+            do {
+                subCategoryList = try context.fetch(request)
+            } catch {
+                print("Failed to retrieve record")
+                print(error)
+            }
+        }
+    }
     
     //Number of TableView sections
     override func numberOfSections(in tableView: UITableView) -> Int {

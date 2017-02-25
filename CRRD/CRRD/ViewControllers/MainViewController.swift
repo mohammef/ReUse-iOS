@@ -17,14 +17,93 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     @IBOutlet weak var repairButton: UIButton!
     @IBOutlet weak var reuseButton: UIButton!
     @IBOutlet weak var recycleButton: UIButton!
+    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var rightBarButtonsView: UIView!
     
     private var categoryList: [CategoryMO] = []
     private var repairItemCategory: CategoryMO! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewTheme()
+        loadData()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    
+    //MARK: - Theme
+    
+    //Adjusts look of items in view
+    func viewTheme(){
+
+        //Hide back button from the navigation bar
+        self.navigationItem.setHidesBackButton(true, animated: false)
         
-        //Load Categories from database
+        //Set left navigation bar label
+        viewLabel.text = "Corvallis ReUse"
+        
+        repairButton.layer.cornerRadius = 5
+        reuseButton.layer.cornerRadius = 5
+        recycleButton.layer.cornerRadius = 5
+
+    }
+  
+    
+    //MARK: - Navigation
+    
+    //Button action that displays the drop down menu
+    @IBAction func dropDownMenu(_ sender: UIButton) {
+        
+        //Reference to drop down menu view controller
+        let dropDownView = (storyboard?.instantiateViewController(withIdentifier: "DropDownMenuViewController"))!
+        
+        //Set presentation style to popover
+        dropDownView.modalPresentationStyle = UIModalPresentationStyle.popover
+        
+        //Setup popover presentation controller
+        dropDownView.popoverPresentationController?.delegate = self
+        dropDownView.popoverPresentationController?.sourceView = sender
+        dropDownView.popoverPresentationController?.sourceRect = sender.bounds
+        
+        //Present the popover menu
+        self.present(dropDownView, animated: true, completion: nil)
+    }
+    
+    //Button action that navigates to SubCategoryTableViewController and displays Repair subcategories
+    @IBAction func repairButtonAction(_ sender: UIButton) {
+        performSegue(withIdentifier: "showRepairSubcategory", sender: self)
+    }
+    
+    
+    //UIPopoverPresentationController delegate method. Forces popover instead of modal presentation for iphone
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+    
+    //Segue to subCategoryTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showRepairSubcategory" {
+            let subCategoryVC = segue.destination as! SubCategoryTableViewController
+            subCategoryVC.category = repairItemCategory
+        }
+    }
+    
+    //Segue destination for other view controlers to navigate to this view
+    //Used by home button on navigation bar
+    @IBAction func unwindToMainViewController(segue: UIStoryboardSegue) {
+
+    }
+    
+    
+    // MARK: - Data source
+    
+    //Load from core data model
+    func loadData() {
+        
+        //Load Categories from core data model
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
             let request: NSFetchRequest<CategoryMO> = CategoryMO.fetchRequest()
             let context = appDelegate.persistentContainer.viewContext
@@ -45,62 +124,6 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
                 print(error)
             }
         }
-        
-        repairButton.layer.cornerRadius = 5
-        reuseButton.layer.cornerRadius = 5
-        recycleButton.layer.cornerRadius = 5
-        
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-  
-    
-    //MARK: - Navigation
-    
-    //Button action that displays the drop down menu
-    @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
-        
-        //Reference to drop down menu view controller
-        let dropDownView = (storyboard?.instantiateViewController(withIdentifier: "DropDownMenuViewController"))!
-        
-        //Set presentation style to popover
-        dropDownView.modalPresentationStyle = UIModalPresentationStyle.popover
-        
-        //Setup popover presentation controller
-        dropDownView.popoverPresentationController?.delegate = self
-        dropDownView.popoverPresentationController?.barButtonItem = sender
-
-        //Present the popover menu
-        self.present(dropDownView, animated: false, completion: nil)
-    }
-    
-    //Button action that navigates to SubCategoryTableViewController and displays Repair subcategories
-    @IBAction func repairButtonAction(_ sender: UIButton) {
-        performSegue(withIdentifier: "showRepairSubcategory", sender: self)
-    }
-    
-    
-    //UIPopoverPresentationController Delegate method. Forces popover instead of modal presentation for iphone
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
-    
-    //Segue to subCategoryTableViewController
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showRepairSubcategory" {
-            let subCategoryVC = segue.destination as! SubCategoryTableViewController
-            subCategoryVC.category = repairItemCategory
-        }
-    }
-    
-    //Segue destination for other view controlers to navigate to this view
-    //Used by home button on navigation bar
-    @IBAction func unwindToMainViewController(segue: UIStoryboardSegue) {
-
     }
     
 }

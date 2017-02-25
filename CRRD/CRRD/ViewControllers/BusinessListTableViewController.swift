@@ -11,6 +11,7 @@ import CoreData
 
 class BusinessListTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
 
+    @IBOutlet weak var viewLabel: UILabel!
     private var businessList: [BusinessMO] = []
     private var selectedBusiness: BusinessMO! = nil
     var subcategory: SubcategoryMO! = nil
@@ -18,44 +19,33 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Load Businesses from database
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let request: NSFetchRequest<BusinessMO> = BusinessMO.fetchRequest()
-            let context = appDelegate.persistentContainer.viewContext
-            
-            //Refine request to businesses from a particular category
-            if subcategory != nil && category != nil {
-                //Refine request. In this case, return all business of given subcategory
-                let predicate = NSPredicate(format: "category.categoryName CONTAINS[cd] %@", category.categoryName!)
-                request.predicate = predicate
-            }
-        
-            //Sort results by business name
-            //let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-            //request.sortDescriptors = [sortDescriptor]
-        
-            do {
-                businessList = try context.fetch(request)
-            } catch {
-                print("Failed to retrieve record")
-                print(error)
-            }
-        }
-
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        viewTheme()
+        loadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: - Theme
+    
+    //Adjusts look of items in view
+    func viewTheme(){
+        //Hide back button from the navigation bar
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Hide separtor lines after empty cells in table view
+        self.tableView.tableFooterView = UIView()
+        
+        //Set left navigation bar label
+        viewLabel.text = subcategory.subCategoryName
+    }
+    
     
     //MARK: - Navigation
     
     //Button action that displays the drop down menu
-    @IBAction func dropDownMenu(_ sender: UIBarButtonItem) {
+    @IBAction func dropDownMenu(_ sender: UIButton) {
         
         //Reference to drop down menu view controller
         let dropDownView = (storyboard?.instantiateViewController(withIdentifier: "DropDownMenuViewController"))!
@@ -65,7 +55,8 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
         
         //Setup popover presentation controller
         dropDownView.popoverPresentationController?.delegate = self
-        dropDownView.popoverPresentationController?.barButtonItem = sender
+        dropDownView.popoverPresentationController?.sourceView = sender
+        dropDownView.popoverPresentationController?.sourceRect = sender.bounds
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
@@ -87,6 +78,35 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
     
     // MARK: - Table view data source
 
+    //Load from core data model
+    func loadData() {
+        
+        //Load Businesses from core data model
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let request: NSFetchRequest<BusinessMO> = BusinessMO.fetchRequest()
+            let context = appDelegate.persistentContainer.viewContext
+            
+            //Refine request to businesses from a particular category
+            if subcategory != nil && category != nil {
+                
+                //Refine request. In this case, return all business of given subcategory
+                let predicate = NSPredicate(format: "category.categoryName CONTAINS[cd] %@ && subcategory.subCategoryName CONTAINS[cd] %@", category.categoryName!, subcategory.subCategoryName!)
+                request.predicate = predicate
+            }
+            
+            //Sort results by business name
+            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            request.sortDescriptors = [sortDescriptor]
+            
+            do {
+                businessList = try context.fetch(request)
+            } catch {
+                print("Failed to retrieve record")
+                print(error)
+            }
+        }
+    }
+    
     //Number of TableView sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

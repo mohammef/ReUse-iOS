@@ -21,7 +21,7 @@ class ParseXML: NSObject, XMLParserDelegate {
     override init() {}
     
     //Parse XML file containing database data
-    func parseXMLFile() -> [Business] {
+    func parseReuseDBXMLFile() -> [Business] {
         let xmlFilePath = Bundle.main.url(forResource: "reuseDB", withExtension: ".xml")
         
         //Initialize and start parsing
