@@ -23,6 +23,9 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     private var categoryList: [CategoryMO] = []
     private var repairItemCategory: CategoryMO! = nil
     
+    //Gets the strings stored in the Strings.plist file
+    private var strings: [String: Any] = Utils.getStrings()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewTheme()
@@ -40,15 +43,19 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     func viewTheme(){
 
         //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        //self.navigationItem.setHidesBackButton(true, animated: false)
         
-        //Set left navigation bar label
-        viewLabel.text = "Corvallis ReUse"
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Set view label text
+        self.title = strings["ApplicationName"] as! String?
+        applicationNameLong.text = strings["ApplicationNameLong"] as! String?
+        applicationDescription.text = strings["ApplicationDescription"] as! String?
         
         repairButton.layer.cornerRadius = 5
         reuseButton.layer.cornerRadius = 5
         recycleButton.layer.cornerRadius = 5
-
     }
   
     
@@ -64,17 +71,23 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
         dropDownView.modalPresentationStyle = UIModalPresentationStyle.popover
         
         //Setup popover presentation controller
-        dropDownView.popoverPresentationController?.delegate = self
-        dropDownView.popoverPresentationController?.sourceView = sender
-        dropDownView.popoverPresentationController?.sourceRect = sender.bounds
+        dropDownView.popoverPresentationController!.delegate = self
+        dropDownView.popoverPresentationController!.sourceView = sender
+        dropDownView.popoverPresentationController!.sourceRect = sender.bounds
+        //dropDownView.popoverPresentationController!.sourceRect = CGRect(x: sender.bounds.origin.x - 3, y: sender.bounds.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
         
         //Present the popover menu
-        self.present(dropDownView, animated: true, completion: nil)
+        self.present(dropDownView, animated: false, completion: nil)
     }
     
-    //Button action that navigates to SubCategoryTableViewController and displays Repair subcategories
+    //Button action that navigates to SubCategoryTableViewController and displays repair subcategories
     @IBAction func repairButtonAction(_ sender: UIButton) {
         performSegue(withIdentifier: "showRepairSubcategory", sender: self)
+    }
+    
+    //Button action that navigates to BusinessListTableViewController and displays recycle businesses
+    @IBAction func recycleButtonAction(_ sender: UIButton) {
+        performSegue(withIdentifier: "showRecycleBusinessList", sender: self)
     }
     
     
@@ -83,11 +96,19 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
         return UIModalPresentationStyle.none
     }
     
-    //Segue to subCategoryTableViewController
+    //Segue repair button or recycle button
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //Repair button
         if segue.identifier == "showRepairSubcategory" {
             let subCategoryVC = segue.destination as! SubCategoryTableViewController
             subCategoryVC.category = repairItemCategory
+        }
+        
+        //Recycle button
+        if segue.identifier == "showRecycleBusinessList" {
+            let businessListVC = segue.destination as! BusinessListTableViewController
+            businessListVC.recycleBusinesses = true
         }
     }
     
@@ -109,7 +130,7 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
             let context = appDelegate.persistentContainer.viewContext
             
             //Create Predicate to refine request. In this case, only return "Repair Items" from results
-            let predicate = NSPredicate(format: "%K == %@", "categoryName", "Repair Items")
+            let predicate = NSPredicate(format: "categoryName == %@", "Repair Items")
             request.predicate = predicate
             
             //Sort results by category name

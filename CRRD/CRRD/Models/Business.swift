@@ -22,12 +22,13 @@ class Business: NSObject {
     var website: String! = nil
     var latitude: Double! = nil
     var longitude: Double! = nil
+    var recycleBusiness = false
     var categoryList: [Category] = []
     var linkList: [Link] = []
     
     override init(){}
     
-    init(name: String, database_id: Int, address_1: String, address_2: String, city: String, state: String, zip: Int, phone: String, website: String, latitude: Double, longitude: Double, categoryList: [Category], linkList: [Link]) {
+    init(_ name: String,_ database_id: Int,_ address_1: String,_ address_2: String, _ city: String,_ state: String,_ zip: Int,_ phone: String,_ website: String, _ latitude: Double,_ longitude: Double,_ recycleBusiness: Bool, _ categoryList: [Category],_ linkList: [Link]) {
         self.name = name
         self.database_id = database_id
         self.address_1 = address_1
@@ -39,11 +40,12 @@ class Business: NSObject {
         self.website = website
         self.latitude = latitude
         self.longitude = longitude
+        self.recycleBusiness = recycleBusiness
         self.categoryList = categoryList
         self.linkList = linkList
     }
     
-    init(business: Business) {
+    init(_ business: Business) {
         self.name = business.name
         self.database_id = business.database_id
         self.address_1 = business.address_1
@@ -55,12 +57,14 @@ class Business: NSObject {
         self.website = business.website
         self.latitude = business.latitude
         self.longitude = business.longitude
+        self.recycleBusiness = business.recycleBusiness
         self.categoryList = business.categoryList
         self.linkList = business.linkList
     }
     
-    /*
+
     //For Testing
+    /*
     func printBusinessDetails() {
         
         print("-----------------------------------")
@@ -75,6 +79,7 @@ class Business: NSObject {
         print("website: " + self.website)
         print("lat: \(self.latitude)")
         print("long: \(self.longitude)")
+        print("is recycle: \(self.recycleBusiness)")
         print("-----------------------------------")
         
         if(self.categoryList.count > 0) {
@@ -95,5 +100,6 @@ class Business: NSObject {
         }
     }
  */
+ 
 }
 

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9E48753F1E544F2700EA203E /* ParseXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E48753E1E544F2700EA203E /* ParseXML.swift */; };
 		9E4875421E54519700EA203E /* reuseDB.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9E4875411E54519700EA203E /* reuseDB.xml */; };
-		9E4E9E771E5C2233002118DA /* BusinessDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E9E761E5C2233002118DA /* BusinessDetailTableViewCell.swift */; };
+		9E4E9E771E5C2233002118DA /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E9E761E5C2233002118DA /* DetailTableViewCell.swift */; };
 		9E52EAED1E49BF51002907AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E52EAEC1E49BF51002907AA /* AppDelegate.swift */; };
 		9E52EAF21E49BF51002907AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E52EAF01E49BF51002907AA /* Main.storyboard */; };
 		9E52EAF51E49BF51002907AA /* CRRD.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E52EAF31E49BF51002907AA /* CRRD.xcdatamodeld */; };
@@ -34,7 +34,7 @@
 /* Begin PBXFileReference section */
 		9E48753E1E544F2700EA203E /* ParseXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseXML.swift; path = Resources/ParseXML.swift; sourceTree = "<group>"; };
 		9E4875411E54519700EA203E /* reuseDB.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = reuseDB.xml; path = Resources/reuseDB.xml; sourceTree = "<group>"; };
-		9E4E9E761E5C2233002118DA /* BusinessDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BusinessDetailTableViewCell.swift; path = ViewControllers/BusinessDetailTableViewCell.swift; sourceTree = "<group>"; };
+		9E4E9E761E5C2233002118DA /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailTableViewCell.swift; path = ViewControllers/DetailTableViewCell.swift; sourceTree = "<group>"; };
 		9E52EAE91E49BF51002907AA /* CRRD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CRRD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E52EAEC1E49BF51002907AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E52EAF11E49BF51002907AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 				9E52EB0A1E49C017002907AA /* SubCategoryTableViewController.swift */,
 				9ECC99FC1E4C827500503CD2 /* DropDownMenuViewController.swift */,
 				9E82FE9A1E4E2E2C007E7D2B /* BusinessDetailsViewController.swift */,
-				9E4E9E761E5C2233002118DA /* BusinessDetailTableViewCell.swift */,
+				9E4E9E761E5C2233002118DA /* DetailTableViewCell.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -219,7 +219,7 @@
 				9E598FA71E533F5D005939AA /* Link.swift in Sources */,
 				9E598FA51E533A01005939AA /* Category.swift in Sources */,
 				9E52EB0E1E49C017002907AA /* ContactViewController.swift in Sources */,
-				9E4E9E771E5C2233002118DA /* BusinessDetailTableViewCell.swift in Sources */,
+				9E4E9E771E5C2233002118DA /* DetailTableViewCell.swift in Sources */,
 				9E52EB0F1E49C017002907AA /* SubCategoryTableViewController.swift in Sources */,
 				9E52EAF51E49BF51002907AA /* CRRD.xcdatamodeld in Sources */,
 				9ECC99FD1E4C827500503CD2 /* DropDownMenuViewController.swift in Sources */,

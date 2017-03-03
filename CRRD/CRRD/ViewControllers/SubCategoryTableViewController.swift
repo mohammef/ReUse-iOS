@@ -31,14 +31,15 @@ class SubCategoryTableViewController: UITableViewController, UIPopoverPresentati
     
     //Adjusts look of items in view
     func viewTheme(){
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         //Hide separtor lines after empty cells in table view
         self.tableView.tableFooterView = UIView()
         
-        //Set left navigation bar label to category name
-        viewLabel.text = category.categoryName
+        //Set view label text
+        self.title = category.categoryName
     }
     
     

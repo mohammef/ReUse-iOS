@@ -33,6 +33,7 @@ class Category: NSObject {
             self.businesses.append(tmpBusinessID)
         }
     }
+    
     /*
     //For Testing
     func printSubCategoryList() {
@@ -41,4 +42,5 @@ class Category: NSObject {
         }
     }
     */
+    
 }

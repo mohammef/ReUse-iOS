@@ -9,18 +9,27 @@
 import UIKit
 import MessageUI
 
-class ContactViewController: UIViewController, UIPopoverPresentationControllerDelegate, MFMailComposeViewControllerDelegate {
+class ContactViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
-    @IBOutlet weak var emailButton: UIButton!
-    @IBOutlet weak var onlineURLButton: UIButton!
-    @IBOutlet weak var facebookURLButton: UIButton!
-    @IBOutlet weak var twitterURLButton: UIButton!
+    //Holds CSC mail, online, facebook ,and twitter details used in the table view cells.
+    private struct ContactDetails {
+        var identifier = ""
+        var link = ""
+        var image: UIImage! = nil
+    }
+    
     @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var contactLabel: UILabel!
+    @IBOutlet weak var aboutContact: UILabel!
+    private var contactDetails: [ContactDetails] = []
     
+    //Gets the strings stored in the Strings.plist file
+    private var strings: [String: Any] = Utils.getStrings()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewTheme()
+        populateContactDetails()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,17 +41,34 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
     
     //Adjusts look of items in view
     func viewTheme(){
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
         
-        //Set left navigation bar label
-        viewLabel.text = "Contact"
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        //navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        //Set view label text
+        self.title = strings["ContactActivityLabel"] as! String?
+        contactLabel.text = strings["ContactCSCLabel"] as! String?
+        aboutContact.text = strings["AboutContact"] as! String?
     }
     
     
-    //MARK: - Navigation
+    //MARK: - Navigation and Data Handling
+    
+    //Add CSC mail, online facebook and twitter info
+    func populateContactDetails() {
+        
+        //Add CSC email details
+        contactDetails.append(ContactDetails(identifier: "mail", link: ((strings["CSCEmail"]) as! String?)!, image: #imageLiteral(resourceName: "email_black")))
+        
+        //Add CSC online details
+        contactDetails.append(ContactDetails(identifier: "link", link: ((strings["CSCOnline"]) as! String?)!, image: #imageLiteral(resourceName: "public_black")))
+        
+        //Add CSC facebook details
+        contactDetails.append(ContactDetails(identifier: "link", link: ((strings["CSCFacebook"]) as! String?)!, image: #imageLiteral(resourceName: "facebook_black")))
+        
+        //Add CSC twitter details
+        contactDetails.append(ContactDetails(identifier: "link", link: ((strings["CSCTwitter"]) as! String?)!, image: #imageLiteral(resourceName: "twitter_black")))
+    }
     
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIButton) {
@@ -67,38 +93,93 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         return UIModalPresentationStyle.none
     }
     
+    //Displays an alert on the screen and prompts the user with a choice to navigate to the link
+    func openLink(_ link: String) {
+        
+        //Setup alert menu
+        let alertMenu = UIAlertController(title: nil, message: "Open link", preferredStyle: .actionSheet)
+        let cancelAlertMenu = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        //Setup action that allows the user to open the link when pressed
+        let actionHandler = { (action:UIAlertAction) -> Void in
+            UIApplication.shared.open(NSURL(string: link)! as URL)
+        }
+        let linkAction = UIAlertAction(title: "\(link)", style: .default, handler: actionHandler)
+        
+        //Add call and cancel actions to the alert menu
+        alertMenu.addAction(linkAction)
+        alertMenu.addAction(cancelAlertMenu)
+        
+        present(alertMenu, animated: true, completion:  nil)
+    }
+
     //Action performed when CSC email link is pressed
-    @IBAction func email(_ sender: Any) {
+    func openEmail(_ subject: String, _ email: String) {
+        
         //Reference to mail compose view controller
         let mailCompose = MFMailComposeViewController()
         
         //Setup mail compose view controller
         mailCompose.mailComposeDelegate = self
-        mailCompose.setSubject("ReUse information request")
-        mailCompose.setToRecipients(["info@sustainablecorvallis.org"])
+        mailCompose.setSubject(subject)
+        mailCompose.setToRecipients([email])
+        //mailCompose.navigationBar.barTintColor = Utils.Colors.cscGreenDark
+        mailCompose.navigationBar.tintColor = UIColor.white
+
+
         
         //Present mail compose view controller
         present(mailCompose, animated: true, completion: nil)
     }
     
-    //MFMailComposeViewController result method. 
     //Allows access to MFMailComposeViewController result and dismisses view
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         self.dismiss(animated: true, completion: nil) //Dismiss mail compose view
     }
 
-    //Action performed when CSC URL is pressed
-    @IBAction func onlineURL(_ sender: Any) {
-        UIApplication.shared.open(NSURL(string: "http://sustainablecorvallis.org/")! as URL)
-    }
-
-    //Action performed when CSC facebook URL is pressed
-    @IBAction func facebookURL(_ sender: Any) {
-        UIApplication.shared.open(NSURL(string: "https://www.facebook.com/SustainableCorvallis/")! as URL)
+    
+    // MARK: - Table view data source
+    
+    //Number of rows in table view section
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contactDetails.count
     }
     
-    //Action performed when CSC twitter URL is pressed
-    @IBAction func twitterURL(_ sender: Any) {
-        UIApplication.shared.open(NSURL(string: "https://twitter.com/sustaincorv")! as URL)
+    //Display contact details in table view cells
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //Cell uses ContactDetailCell as template
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactDetailCell", for: indexPath) as! DetailTableViewCell
+        
+        //Wrap characters if URL is too long for one line
+        cell.contactCellLabelValue.lineBreakMode = NSLineBreakMode.byCharWrapping
+        
+        //Configure table view cell
+        cell.contactCellLabelValue.text = contactDetails[indexPath.row].link
+        cell.contactCellImage.image = contactDetails[indexPath.row].image
+        
+        //Change image tint and label text color
+        cell.contactCellLabelValue.textColor = Utils.Colors.cscBlue
+        cell.contactCellImage.tintColor = Utils.Colors.cscBlue
+        
+        return cell
     }
+    
+    //Perform action for selected contact detail
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //Action for opening link, mail or address
+        switch contactDetails[indexPath.row].identifier {
+        case "mail":
+            openEmail((strings["CSCInfoEmailSubject"] as! String), contactDetails[indexPath.row].link)
+        case "link":
+            openLink(contactDetails[indexPath.row].link)
+        default:
+            break
+        }
+    }
+    
 }
+
+
+

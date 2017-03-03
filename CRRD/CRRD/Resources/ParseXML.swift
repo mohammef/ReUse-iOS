@@ -18,11 +18,15 @@ class ParseXML: NSObject, XMLParserDelegate {
     private var tmpLink = Link()
     private var topElement = ""
     private var currentContent = ""
+    private var recycleBusiness = false
     override init() {}
     
     //Parse XML file containing database data
-    func parseReuseDBXMLFile() -> [Business] {
-        let xmlFilePath = Bundle.main.url(forResource: "reuseDB", withExtension: ".xml")
+    func parseXMLFile(_ fileName: String) -> [Business] {
+        let xmlFilePath = Bundle.main.url(forResource: fileName, withExtension: ".xml")
+        
+        //Parsing recycle businesses xml file
+        if fileName == "recycleXML" { recycleBusiness = true }
         
         //Initialize and start parsing
         let parser = XMLParser(contentsOf: xmlFilePath!)
@@ -33,7 +37,7 @@ class ParseXML: NSObject, XMLParserDelegate {
     }
     
     
-    //Start of given element tag
+    //Start of element tag
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
         //Handle different cases for start of business, category and link tags
@@ -41,6 +45,7 @@ class ParseXML: NSObject, XMLParserDelegate {
         case "business":
             topElement = elementName
             tmpBusiness = Business()
+            if recycleBusiness { tmpBusiness.recycleBusiness = true }
         case "category":
             topElement = elementName
             tmpCategory = Category()
@@ -59,7 +64,7 @@ class ParseXML: NSObject, XMLParserDelegate {
     }
     
     
-    //End of given element tag
+    //End of element tag
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         //End of business tag
@@ -92,7 +97,7 @@ class ParseXML: NSObject, XMLParserDelegate {
                 
             //Add Business object to business list
             case "business":
-                let business  = Business(business: tmpBusiness)
+                let business  = Business(tmpBusiness)
                 businessList.append(business)
             default: break
             }
@@ -119,7 +124,7 @@ class ParseXML: NSObject, XMLParserDelegate {
             }
         }
         
-        
+        //End of link tag
         if topElement == "link" {
             //Place content between each tag in correct location inside Link object
             switch elementName {
@@ -138,13 +143,13 @@ class ParseXML: NSObject, XMLParserDelegate {
         }
     }
     
-    
+    /*
     //End of XML document
     func parserDidEndDocument(_ parser: XMLParser) {
-        //printBusinessList()
+        printBusinessList()
     }
     
-    /*
+    
     //For Testing
     func printBusinessList() {
         var count = 0
@@ -156,4 +161,5 @@ class ParseXML: NSObject, XMLParserDelegate {
         }
     }
      */
+
 }

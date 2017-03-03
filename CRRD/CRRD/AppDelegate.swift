@@ -21,13 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let parse = ParseXML()
-        let businessList: [Business] = parse.parseReuseDBXMLFile()
+        let businessList: [Business] = parse.parseXMLFile("reuseDB")
+        let recycleList: [Business] = parse.parseXMLFile("recycleXML")
         
-        UpdateDataModel.clearEntityRecords(entity: "Business")
-        UpdateDataModel.clearEntityRecords(entity: "Category")
-        UpdateDataModel.clearEntityRecords(entity: "Subcategory")
-        UpdateDataModel.addToBusinessMO(businessList: businessList)
-
+        UpdateDataModel.clearEntityRecords("Business")
+        UpdateDataModel.clearEntityRecords("Category")
+        UpdateDataModel.clearEntityRecords("Subcategory")
+        UpdateDataModel.clearEntityRecords("Link")
+        UpdateDataModel.addToBusinessMO(businessList)
+        UpdateDataModel.addToBusinessMO(recycleList)
+         
         return true
     }
 

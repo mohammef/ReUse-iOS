@@ -15,6 +15,9 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
     private var categoryList: [CategoryMO] = []
     private var selectedCategory: CategoryMO! = nil
     
+    //Gets the strings stored in the Strings.plist file
+    private var strings: [String: Any] = Utils.getStrings()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewTheme()
@@ -30,14 +33,16 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
     
     //Adjusts look of items in view
     func viewTheme(){
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         //Hide separtor lines after empty cells in table view
         self.tableView.tableFooterView = UIView()
         
-        //Set left navigation bar label
-        viewLabel.text = "Categories"
+        //Set view label text
+        self.title = strings["CategoryListActivityLabel"] as! String?
+        
     }
     
     
@@ -86,7 +91,7 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
             let context = appDelegate.persistentContainer.viewContext
         
             //Create Predicate to refine request. In this case, remove "Repair Items" from results
-            let predicate = NSPredicate(format: "%K != %@", "categoryName", "Repair Items")
+            let predicate = NSPredicate(format: "categoryName != %@", "Repair Items")
             request.predicate = predicate
             
             //Sort results by category name

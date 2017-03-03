@@ -16,6 +16,10 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
     private var selectedBusiness: BusinessMO! = nil
     var subcategory: SubcategoryMO! = nil
     var category: CategoryMO! = nil
+    var recycleBusinesses: Bool = false
+    
+    //Gets the strings stored in the Strings.plist file
+    private var strings: [String: Any] = Utils.getStrings()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +35,19 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
     
     //Adjusts look of items in view
     func viewTheme(){
-        //Hide back button from the navigation bar
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Set view label text
+        if recycleBusinesses {
+            self.title = strings["RecyclingInfoActivityLabel"] as! String?
+        } else {
+            self.title = subcategory?.subCategoryName
+        }
         
         //Hide separtor lines after empty cells in table view
         self.tableView.tableFooterView = UIView()
-        
-        //Set left navigation bar label
-        viewLabel.text = subcategory.subCategoryName
     }
     
     
@@ -91,6 +100,13 @@ class BusinessListTableViewController: UITableViewController, UIPopoverPresentat
                 
                 //Refine request. In this case, return all business of given subcategory
                 let predicate = NSPredicate(format: "category.categoryName CONTAINS[cd] %@ && subcategory.subCategoryName CONTAINS[cd] %@", category.categoryName!, subcategory.subCategoryName!)
+                request.predicate = predicate
+            }
+            
+            if recycleBusinesses {
+                
+                //Refine request. In this case, return all recycle businesses
+                let predicate = NSPredicate(format: "recycleBusiness == true")
                 request.predicate = predicate
             }
             

@@ -59,6 +59,16 @@ class Utils {
         
     }
     
+    static func getStrings() -> [String: Any] {
+        
+        if let path = Bundle.main.path(forResource: "Strings", ofType: "plist"),
+            let dict = NSDictionary(contentsOfFile: path) as? [String: Any] {
+            return dict
+        }
+        return [:]
+    }
+    
+    
 }
 
 

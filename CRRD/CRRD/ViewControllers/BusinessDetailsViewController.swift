@@ -10,11 +10,12 @@ import UIKit
 import MessageUI
 import CoreData
 
-class BusinessDetailsViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
+class BusinessDetailsViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
 
     private struct BusinessDetails {
         var identifier = ""
         var value = ""
+        var link = ""
         var image: UIImage! = nil
     }
     
@@ -23,9 +24,7 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
 
     var business: BusinessMO! = nil
     private var subCategoryList: [SubcategoryMO] = []
-    //private var businessDetailList: [Int: String] = [:]
-    //private var images: [Int: UIImage] = [:]
-    //private var businessDetailListCount: Int = 0
+    private var linkList: [LinkMO] = []
     private var businessDetails: [BusinessDetails] = []
     
     override func viewDidLoad() {
@@ -33,73 +32,113 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         viewTheme()
         loadData()
         populateBusinessDetailsList()
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    //Add business info
     func populateBusinessDetailsList() {
-        var count = 0
+        var index = 0
         
         if business.address_line_1 != "" {
-            
             businessDetails.append(BusinessDetails())
-            businessDetails[count].identifier = "address_line_1"
-            businessDetails[count].value = "\(business.address_line_1!) \n\(business.city!) \(business.state!) \(business.zip)"
-            businessDetails[count].image = #imageLiteral(resourceName: "place_black")
-            count += 1
+            index = businessDetails.endIndex - 1
+            businessDetails[index].identifier = "address_line_1"
+            businessDetails[index].value = "\(business.address_line_1!) \n\(business.city!) \(business.state!) \(business.zip)"
+            businessDetails[index].image = #imageLiteral(resourceName: "place_black")
         }
         
         if business.phone != "" {
             //^([0-9]{3})([0-9]{3})([0-9]{4})
             
             businessDetails.append(BusinessDetails())
-            businessDetails[count].identifier = "phone"
-            businessDetails[count].value = business.phone!
-            businessDetails[count].image = #imageLiteral(resourceName: "phone_black")
-            count += 1
+            index = businessDetails.endIndex - 1
+            
+            businessDetails[index].identifier = "phone"
+            businessDetails[index].value = formatPhone(business.phone!)
+            businessDetails[index].link = business.phone!
+            businessDetails[index].image = #imageLiteral(resourceName: "phone_black")
         }
         
         if business.website != "" {
             
             businessDetails.append(BusinessDetails())
-            businessDetails[count].identifier = "website"
-            businessDetails[count].value = business.website!
-            businessDetails[count].image = #imageLiteral(resourceName: "public_black")
-            count += 1
+            index = businessDetails.endIndex - 1
+            
+            businessDetails[index].identifier = "website"
+            businessDetails[index].value = business.website!
+            businessDetails[index].link = business.website!
+            businessDetails[index].image = #imageLiteral(resourceName: "public_black")
         }
 
-        
-        businessDetails.append(BusinessDetails())
-        businessDetails[count].identifier = "accepts"
-        businessDetails[count].value = "\(business.name!) Accepts the Following:"
-        businessDetails[count].image = #imageLiteral(resourceName: "check_box_black")
-        count += 1
-        
-        businessDetails.append(BusinessDetails())
-        businessDetails[count].identifier = "subcategory_list"
-        
-        //Format subcategory list for display in table view cell
-        for subcategory in subCategoryList {
-            businessDetails[count].value += "\(subcategory.subCategoryName!)\n"
+        if subCategoryList.count > 0 {
+            businessDetails.append(BusinessDetails())
+            index = businessDetails.endIndex - 1
+            
+            businessDetails[index].identifier = "accepts"
+            businessDetails[index].value = "\(business.name!) Accepts the Following:"
+            businessDetails[index].image = #imageLiteral(resourceName: "check_box_black")
+            
+            businessDetails.append(BusinessDetails())
+            index = businessDetails.endIndex - 1
+            
+            businessDetails[index].identifier = "subcategory_list"
+            
+            //Format subcategory list for display in table view cell
+            for subcategory in subCategoryList {
+                businessDetails[index].value += "\(subcategory.subCategoryName!)\n"
+            }
+            
+            businessDetails[index].image = nil
         }
         
-        businessDetails[count].image = nil
+        if linkList.count > 0 {
+            for link in linkList {
+                businessDetails.append(BusinessDetails())
+                index = businessDetails.endIndex - 1
+                
+                businessDetails[index].identifier = "link"
+                businessDetails[index].value = link.linkName!
+                businessDetails[index].link = link.uri!
+                businessDetails[index].image = #imageLiteral(resourceName: "link_black")
+            }
+        }
+    }
+    
+    func formatPhone(_ phoneNumber: String) -> String {
+        
+        switch phoneNumber.characters.count {
+        case 7:
+            return String(format: "%@-%@", subString(phoneNumber,0,3), subString(phoneNumber,3,7))
+        case 10:
+            return String(format: "(%@)%@-%@", subString(phoneNumber,0,3), subString(phoneNumber,3,6), subString(phoneNumber,6,10))
+        case 11:
+            return String(format: "(%@)%@-%@", subString(phoneNumber,1,4), subString(phoneNumber,4,7), subString(phoneNumber,7,11))
+        default:
+            return phoneNumber
+        }
+        
+    }
+    
+    func subString(_ string: String,_ start: Int,_ end: Int) -> String {
+        let start = string.index(string.startIndex, offsetBy: start)
+        let end = string.index(string.startIndex, offsetBy: end)
+        let range = start..<end
+        return string.substring(with: range)
     }
     
     //MARK: - Theme
     
     //Adjusts look of items in view
     func viewTheme(){
-        //Hide back button from the navigation bar
-        //self.navigationItem.setHidesBackButton(true, animated: false)
-
-        //Set navigation bar label to business name
-        viewLabel.text = business.name
+       
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        //Set business details view label to business name
+        //Set view label text
+        self.title = business.name
         businessNameLabel.text = business.name
     }
     
@@ -129,24 +168,46 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         return UIModalPresentationStyle.none
     }
 
-    
-    @IBAction func businessURL(_ sender: Any) {
-        //UIApplication.shared.open(NSURL(string: "http://www.arcbenton.org/")! as URL)
-    }
-
-    @IBAction func businessAddress(_ sender: Any) {
-        /*
-        let baseUrl: String = "http://maps.apple.com/?q="
-        let encodedName = "928 NW Beca Ave Corvallis OR 97330"
-        let finalUrl = baseUrl + encodedName
-        UIApplication.shared.open(NSURL(string: finalUrl)! as URL)
-        */
+    //Displays an alert on the screen and prompts the user with a choice to call the business
+    func callBusiness(_ phoneNumber: String,_ formatedNumber: String) {
         
+        //Setup alert menu
+        let alertMenu = UIAlertController(title: nil, message: "Call \(business.name!)", preferredStyle: .actionSheet)
+        let cancelAlertMenu = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        //Setup action that allows the user to call when the phone number is pressed
+        let actionHandler = { (action:UIAlertAction) -> Void in
+            UIApplication.shared.open(NSURL(string: "tel://+1\(phoneNumber)") as! URL, options: [:], completionHandler: nil)
+        }
+        let callAction = UIAlertAction(title: "\(formatedNumber)", style: .default, handler: actionHandler)
+        
+        //Add call and cancel actions to the alert menu
+        alertMenu.addAction(callAction)
+        alertMenu.addAction(cancelAlertMenu)
+        
+        present(alertMenu, animated: true, completion:  nil)
     }
     
-    @IBAction func businessPhone(_ sender: Any) {
-        //(541)754 9011
+    //Displays an alert on the screen and prompts the user with a choice to navigate to the link
+    func openLink(_ link: String) {
+        
+        //Setup alert menu
+        let alertMenu = UIAlertController(title: nil, message: "Open", preferredStyle: .actionSheet)
+        let cancelAlertMenu = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        //Setup action that allows the user to open the link when pressed
+        let actionHandler = { (action:UIAlertAction) -> Void in
+            UIApplication.shared.open(NSURL(string: link)! as URL)
+        }
+        let linkAction = UIAlertAction(title: "\(link)", style: .default, handler: actionHandler)
+        
+        //Add call and cancel actions to the alert menu
+        alertMenu.addAction(linkAction)
+        alertMenu.addAction(cancelAlertMenu)
+        
+        present(alertMenu, animated: true, completion:  nil)
     }
+    
     
     
     // MARK: - Table view data source
@@ -154,21 +215,31 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
     //Load from core data model
     func loadData() {
         
-        // Load Subcategories from core data model
+        // Load Subcategories and links from core data model
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let request: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
             let context = appDelegate.persistentContainer.viewContext
             
-            //Refine request. In this case, return all subcategories of given category
-            let predicate = NSPredicate(format: "business.name CONTAINS[cd] %@", business.name!)
-            request.predicate = predicate
+            //Subcategories request
+            let subCategoryRequest: NSFetchRequest<SubcategoryMO> = SubcategoryMO.fetchRequest()
             
-            //Sort results by subcategory name
-            let sortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
-            request.sortDescriptors = [sortDescriptor]
+            //Refine subcategory request. Only return subcategories related to business
+            let subCategoryPredicate = NSPredicate(format: "business.name CONTAINS[cd] %@", business.name!)
+            subCategoryRequest.predicate = subCategoryPredicate
+            
+            //Sort results by subcategory name in ascending order
+            let subCategorySortDescriptor = NSSortDescriptor(key: "subCategoryName", ascending: true)
+            subCategoryRequest.sortDescriptors = [subCategorySortDescriptor]
+            
+            //Links request
+            let linkRequest: NSFetchRequest<LinkMO> = LinkMO.fetchRequest()
+            
+            //Refine link request. Only return links related to business
+            let linkPredicate = NSPredicate(format: "business.name == %@", business.name!)
+            linkRequest.predicate = linkPredicate
             
             do {
-                subCategoryList = try context.fetch(request)
+                subCategoryList = try context.fetch(subCategoryRequest)
+                linkList = try context.fetch(linkRequest)
             } catch {
                 print("Failed to retrieve record")
                 print(error)
@@ -184,41 +255,42 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
     //Display business details in table view cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-    
-        let cell = tableView.dequeueReusableCell(withIdentifier: "businessDetailCell", for: indexPath) as! BusinessDetailTableViewCell
+        //Cell uses BusinessDetailTableViewCell as template
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessDetailCell", for: indexPath) as! DetailTableViewCell
         
         //Change color to black for subcategory list
         if (businessDetails[indexPath.row].identifier == "accepts" ||
             businessDetails[indexPath.row].identifier == "subcategory_list") {
-            cell.labelValue.textColor = UIColor.black
+            cell.businessCellLabelValue.textColor = UIColor.black
+            cell.businessCellImage.tintColor = UIColor.black
         }
         
         //Wrap characters if URL is too long for one line
         if businessDetails[indexPath.row].identifier == "website" {
-            cell.labelValue.lineBreakMode = NSLineBreakMode.byCharWrapping
+            cell.businessCellLabelValue.lineBreakMode = NSLineBreakMode.byCharWrapping
         }
         
         //Configure table view cell
-        cell.labelValue.text = businessDetails[indexPath.row].value
-        cell.imageLabel.image = businessDetails[indexPath.row].image
+        cell.businessCellLabelValue.text = businessDetails[indexPath.row].value
+        cell.businessCellImage.image = businessDetails[indexPath.row].image
         
         return cell
     }
     
-    /*
+    
     //Perform action for selected business
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Action for opening business website, phone, and address
         switch businessDetails[indexPath.row].identifier {
-        case "website":
-            UIApplication.shared.open(NSURL(string: businessDetails[indexPath.row].value)! as URL)
+        case "link":
+            openLink(businessDetails[indexPath.row].link)
         case "phone":
-            UIApplication.shared.open(NSURL(string: "telprompt://\(businessDetails[indexPath.row].value)")! as URL)
+            callBusiness(businessDetails[indexPath.row].link, businessDetails[indexPath.row].value)
+        case "website":
+            openLink(businessDetails[indexPath.row].link)
         default:
             break
         }
-        
     }
-    */
 }
