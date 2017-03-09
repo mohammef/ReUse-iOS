@@ -18,7 +18,8 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         var image: UIImage! = nil
     }
     
-    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var dropDownMenuButton: UIBarButtonItem!
+    @IBOutlet weak var homeButton: UIBarButtonItem!
     @IBOutlet weak var contactLabel: UILabel!
     @IBOutlet weak var aboutContact: UILabel!
     private var contactDetails: [ContactDetails] = []
@@ -31,31 +32,9 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         viewTheme()
         populateContactDetails()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    
-    //MARK: - Theme
-    
-    //Adjusts look of items in view
-    func viewTheme(){
-        
-        //Hide back button label from the navigation bar
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-        //Set view label text
-        self.title = strings["ContactActivityLabel"] as! String?
-        contactLabel.text = strings["ContactCSCLabel"] as! String?
-        aboutContact.text = strings["AboutContact"] as! String?
-    }
-    
-    
-    //MARK: - Navigation and Data Handling
     
     //Add CSC mail, online facebook and twitter info
-    func populateContactDetails() {
+    private func populateContactDetails() {
         
         //Add CSC email details
         contactDetails.append(ContactDetails(identifier: "mail", link: ((strings["CSCEmail"]) as! String?)!, image: #imageLiteral(resourceName: "email_black")))
@@ -69,6 +48,31 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         //Add CSC twitter details
         contactDetails.append(ContactDetails(identifier: "link", link: ((strings["CSCTwitter"]) as! String?)!, image: #imageLiteral(resourceName: "twitter_black")))
     }
+
+    
+    /*****************************************************************************/
+    //MARK: - Theme
+    
+    //Adjusts look of items in view
+    private func viewTheme() {
+        
+        //Hide back button label from the navigation bar
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Move the home and drop down menu buttons further to the right
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -6
+        self.navigationItem.setRightBarButtonItems([negativeSpacer, dropDownMenuButton, homeButton], animated: false)
+        
+        //Set view label text
+        self.title = strings["ContactActivityLabel"] as! String?
+        contactLabel.text = strings["ContactCSCLabel"] as! String?
+        aboutContact.text = strings["AboutContact"] as! String?
+    }
+    
+    
+    /*****************************************************************************/
+    //MARK: - Navigation
     
     //Button action that displays the drop down menu
     @IBAction func dropDownMenu(_ sender: UIButton) {
@@ -83,6 +87,7 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         dropDownView.popoverPresentationController?.delegate = self
         dropDownView.popoverPresentationController?.sourceView = sender
         dropDownView.popoverPresentationController?.sourceRect = sender.bounds
+        dropDownView.popoverPresentationController!.permittedArrowDirections = .up
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
@@ -114,7 +119,7 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
     }
 
     //Action performed when CSC email link is pressed
-    func openEmail(_ subject: String, _ email: String) {
+    private func openEmail(_ subject: String, _ email: String) {
         
         //Reference to mail compose view controller
         let mailCompose = MFMailComposeViewController()
@@ -123,10 +128,7 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
         mailCompose.mailComposeDelegate = self
         mailCompose.setSubject(subject)
         mailCompose.setToRecipients([email])
-        //mailCompose.navigationBar.barTintColor = Utils.Colors.cscGreenDark
         mailCompose.navigationBar.tintColor = UIColor.white
-
-
         
         //Present mail compose view controller
         present(mailCompose, animated: true, completion: nil)
@@ -134,10 +136,11 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
     
     //Allows access to MFMailComposeViewController result and dismisses view
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        self.dismiss(animated: true, completion: nil) //Dismiss mail compose view
+        self.dismiss(animated: true, completion: nil)
     }
 
     
+    /*****************************************************************************/
     // MARK: - Table view data source
     
     //Number of rows in table view section
@@ -178,7 +181,6 @@ class ContactViewController: UIViewController, UIPopoverPresentationControllerDe
             break
         }
     }
-    
 }
 
 

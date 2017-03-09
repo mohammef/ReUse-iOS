@@ -11,14 +11,13 @@ import CoreData
 
 class MainViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
-    @IBOutlet var mainView: UIView!
+    @IBOutlet weak var dropDownMenuButton: UIBarButtonItem!
+    @IBOutlet weak var homeButton: UIBarButtonItem!
     @IBOutlet weak var applicationNameLong: UILabel!
     @IBOutlet weak var applicationDescription: UILabel!
     @IBOutlet weak var repairButton: UIButton!
     @IBOutlet weak var reuseButton: UIButton!
     @IBOutlet weak var recycleButton: UIButton!
-    @IBOutlet weak var viewLabel: UILabel!
-    @IBOutlet weak var rightBarButtonsView: UIView!
     
     private var categoryList: [CategoryMO] = []
     private var repairItemCategory: CategoryMO! = nil
@@ -26,39 +25,45 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     //Gets the strings stored in the Strings.plist file
     private var strings: [String: Any] = Utils.getStrings()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        viewTheme()
+    override func viewDidAppear(_ animated: Bool) {
+        UpdateDataModel.updateDataModel()
         loadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewTheme()
+        //loadData()
     }
     
     
+    /*****************************************************************************/
     //MARK: - Theme
     
     //Adjusts look of items in view
-    func viewTheme(){
+    private func viewTheme(){
 
-        //Hide back button from the navigation bar
-        //self.navigationItem.setHidesBackButton(true, animated: false)
-        
         //Hide back button label from the navigation bar
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Move the home and drop down menu buttons further to the right
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -6
+        self.navigationItem.setRightBarButtonItems([negativeSpacer, dropDownMenuButton, homeButton], animated: false)
         
         //Set view label text
         self.title = strings["ApplicationName"] as! String?
         applicationNameLong.text = strings["ApplicationNameLong"] as! String?
         applicationDescription.text = strings["ApplicationDescription"] as! String?
         
+        //Round the corners of the buttons
         repairButton.layer.cornerRadius = 5
         reuseButton.layer.cornerRadius = 5
         recycleButton.layer.cornerRadius = 5
     }
   
     
+    /*****************************************************************************/
     //MARK: - Navigation
     
     //Button action that displays the drop down menu
@@ -74,10 +79,15 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
         dropDownView.popoverPresentationController!.delegate = self
         dropDownView.popoverPresentationController!.sourceView = sender
         dropDownView.popoverPresentationController!.sourceRect = sender.bounds
-        //dropDownView.popoverPresentationController!.sourceRect = CGRect(x: sender.bounds.origin.x - 3, y: sender.bounds.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+        dropDownView.popoverPresentationController!.permittedArrowDirections = .up
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
+    }
+    
+    //UIPopoverPresentationController delegate method. Forces popover instead of modal presentation for iphone
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
     //Button action that navigates to SubCategoryTableViewController and displays repair subcategories
@@ -88,12 +98,6 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     //Button action that navigates to BusinessListTableViewController and displays recycle businesses
     @IBAction func recycleButtonAction(_ sender: UIButton) {
         performSegue(withIdentifier: "showRecycleBusinessList", sender: self)
-    }
-    
-    
-    //UIPopoverPresentationController delegate method. Forces popover instead of modal presentation for iphone
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
     }
     
     //Segue repair button or recycle button
@@ -114,15 +118,14 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
     
     //Segue destination for other view controlers to navigate to this view
     //Used by home button on navigation bar
-    @IBAction func unwindToMainViewController(segue: UIStoryboardSegue) {
-
-    }
+    @IBAction func unwindToMainViewController(segue: UIStoryboardSegue) {}
     
     
+    /*****************************************************************************/
     // MARK: - Data source
     
     //Load from core data model
-    func loadData() {
+    private func loadData() {
         
         //Load Categories from core data model
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -139,13 +142,12 @@ class MainViewController: UIViewController, UIPopoverPresentationControllerDeleg
             
             do {
                 categoryList = try context.fetch(request)
-                repairItemCategory = categoryList[0]
-            } catch {
-                print("Failed to retrieve record")
-                print(error)
-            }
+                if categoryList.count > 0 {
+                    repairItemCategory = categoryList[0]
+                }
+            } catch { print("Failed to retrieve record: \(error)") }
+            //context.reset() //Free from memory
         }
     }
-    
 }
 

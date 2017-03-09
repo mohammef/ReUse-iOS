@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-//Stores colors and theme of app
+//Stores misc. functions used throughout app
 class Utils {
     
     //Colors used throught the app
@@ -33,29 +33,19 @@ class Utils {
         static let cscBlueDark = UIColorFromRGB(rgbValue: 0x415E5E)
        
     }
-    
-    struct Styles {
-        static let labelFontMain = UIFont(name: "ArialMT" , size: 40.0)
-        static let labelFont = UIFont(name: "ArialMT" , size: 15.0)
-        static let mainButtonFont = UIFont(name: "ArialMT" , size: 20.0)
-    
-        static let roundedButtonCornerRadius: CGFloat = 5.0
-        
-    }
-    
+
+    //Sets the Navigation bar, status bar and table view appearance
     static func appTheme() {
         
         UIApplication.shared.statusBarStyle = .lightContent
         
         let navigationBar = UINavigationBar.appearance()
-        navigationBar.barTintColor = Colors.cscGreenDark
+        navigationBar.barTintColor = Utils.Colors.cscGreenDark
         navigationBar.tintColor = UIColor.white
-    
-    
-        let tableView = UITableView.appearance()
-        tableView.estimatedRowHeight = 36
-        tableView.rowHeight = UITableViewAutomaticDimension
         
+        let tableView = UITableView.appearance()
+        tableView.estimatedRowHeight = 10
+        tableView.rowHeight = UITableViewAutomaticDimension
         
     }
     

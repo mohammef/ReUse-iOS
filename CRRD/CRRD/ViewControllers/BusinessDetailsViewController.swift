@@ -12,6 +12,7 @@ import CoreData
 
 class BusinessDetailsViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
 
+    //Holds the business details used in the table view cells below
     private struct BusinessDetails {
         var identifier = ""
         var value = ""
@@ -19,130 +20,116 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         var image: UIImage! = nil
     }
     
-    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var dropDownMenuButton: UIBarButtonItem!
+    @IBOutlet weak var homeButton: UIBarButtonItem!
     @IBOutlet weak var businessNameLabel: UILabel!
-
-    var business: BusinessMO! = nil
     private var subCategoryList: [SubcategoryMO] = []
     private var linkList: [LinkMO] = []
     private var businessDetails: [BusinessDetails] = []
+    var business: BusinessMO! = nil
     
+    
+    //Executes after view controller is loaded
     override func viewDidLoad() {
         super.viewDidLoad()
         viewTheme()
         loadData()
         populateBusinessDetailsList()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     //Add business info
-    func populateBusinessDetailsList() {
-        var index = 0
+    private func populateBusinessDetailsList() {
         
+        //Add business address
         if business.address_line_1 != "" {
-            businessDetails.append(BusinessDetails())
-            index = businessDetails.endIndex - 1
-            businessDetails[index].identifier = "address_line_1"
-            businessDetails[index].value = "\(business.address_line_1!) \n\(business.city!) \(business.state!) \(business.zip)"
-            businessDetails[index].image = #imageLiteral(resourceName: "place_black")
+            let address = "\(business.address_line_1!) \n\(business.city!) \(business.state!) \(business.zip)"
+            
+            //Link to open address in Apple Maps. Remove "\n" character and replace " " with "%20"
+            let addressLink = "http://maps.apple.com/?q=" + address.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: " ", with: "%20")
+            
+            businessDetails.append(BusinessDetails(identifier: "address", value: address, link: addressLink, image: #imageLiteral(resourceName: "place_black")))
         }
         
+        //Add business phone number
         if business.phone != "" {
-            //^([0-9]{3})([0-9]{3})([0-9]{4})
-            
-            businessDetails.append(BusinessDetails())
-            index = businessDetails.endIndex - 1
-            
-            businessDetails[index].identifier = "phone"
-            businessDetails[index].value = formatPhone(business.phone!)
-            businessDetails[index].link = business.phone!
-            businessDetails[index].image = #imageLiteral(resourceName: "phone_black")
+            businessDetails.append(BusinessDetails(identifier: "phone", value: formatPhone(business.phone!), link: business.phone!, image: #imageLiteral(resourceName: "phone_black")))
         }
         
+        //Add business website
         if business.website != "" {
-            
-            businessDetails.append(BusinessDetails())
-            index = businessDetails.endIndex - 1
-            
-            businessDetails[index].identifier = "website"
-            businessDetails[index].value = business.website!
-            businessDetails[index].link = business.website!
-            businessDetails[index].image = #imageLiteral(resourceName: "public_black")
+            businessDetails.append(BusinessDetails(identifier: "website", value: business.website!, link: business.website!, image: #imageLiteral(resourceName: "public_black")))
         }
 
+        //Add business subcategory list
         if subCategoryList.count > 0 {
-            businessDetails.append(BusinessDetails())
-            index = businessDetails.endIndex - 1
-            
-            businessDetails[index].identifier = "accepts"
-            businessDetails[index].value = "\(business.name!) Accepts the Following:"
-            businessDetails[index].image = #imageLiteral(resourceName: "check_box_black")
-            
-            businessDetails.append(BusinessDetails())
-            index = businessDetails.endIndex - 1
-            
-            businessDetails[index].identifier = "subcategory_list"
+            businessDetails.append(BusinessDetails(identifier: "accepts", value: "\(business.name!) Accepts the Following:", link: "", image: #imageLiteral(resourceName: "check_box_black")))
             
             //Format subcategory list for display in table view cell
+            var subCategories = ""
             for subcategory in subCategoryList {
-                businessDetails[index].value += "\(subcategory.subCategoryName!)\n"
+                subCategories += "\(subcategory.subCategoryName!)\n"
             }
-            
-            businessDetails[index].image = nil
+
+            businessDetails.append(BusinessDetails(identifier: "subcategory_list", value: subCategories, link: "", image: nil))
         }
         
+        //Add business links
         if linkList.count > 0 {
             for link in linkList {
-                businessDetails.append(BusinessDetails())
-                index = businessDetails.endIndex - 1
-                
-                businessDetails[index].identifier = "link"
-                businessDetails[index].value = link.linkName!
-                businessDetails[index].link = link.uri!
-                businessDetails[index].image = #imageLiteral(resourceName: "link_black")
+                businessDetails.append(BusinessDetails(identifier: "link", value: link.linkName!, link: link.uri!, image: #imageLiteral(resourceName: "link_black")))
             }
         }
     }
     
-    func formatPhone(_ phoneNumber: String) -> String {
+    //Format US phone number for display
+    private func formatPhone(_ phoneNumber: String) -> String {
         
         switch phoneNumber.characters.count {
+        //Returns number in 555-5555 format
         case 7:
             return String(format: "%@-%@", subString(phoneNumber,0,3), subString(phoneNumber,3,7))
+        //Returns number in (555)555-5555 format
         case 10:
             return String(format: "(%@)%@-%@", subString(phoneNumber,0,3), subString(phoneNumber,3,6), subString(phoneNumber,6,10))
+        //Removes leading 1 and returns number in (555)555-5555 format
         case 11:
             return String(format: "(%@)%@-%@", subString(phoneNumber,1,4), subString(phoneNumber,4,7), subString(phoneNumber,7,11))
         default:
             return phoneNumber
         }
-        
     }
     
-    func subString(_ string: String,_ start: Int,_ end: Int) -> String {
+    //Returns a substring from using the given start and end index
+    private func subString(_ string: String,_ start: Int,_ end: Int) -> String {
         let start = string.index(string.startIndex, offsetBy: start)
         let end = string.index(string.startIndex, offsetBy: end)
         let range = start..<end
         return string.substring(with: range)
     }
     
+    
+    /*****************************************************************************/
     //MARK: - Theme
     
     //Adjusts look of items in view
-    func viewTheme(){
+    private func viewTheme(){
        
         //Hide back button label from the navigation bar
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
+        //Move the home and drop down menu buttons further to the right
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -6
+        
+        self.navigationItem.setRightBarButtonItems([negativeSpacer, dropDownMenuButton, homeButton], animated: false)
+        
         //Set view label text
-        self.title = business.name
-        businessNameLabel.text = business.name
+        self.title = business?.name
+        businessNameLabel.text = business?.name
     }
     
     
+    /*****************************************************************************/
     //MARK: - Navigation
     
     //Button action that displays the drop down menu
@@ -158,6 +145,7 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         dropDownView.popoverPresentationController?.delegate = self
         dropDownView.popoverPresentationController?.sourceView = sender
         dropDownView.popoverPresentationController?.sourceRect = sender.bounds
+        dropDownView.popoverPresentationController!.permittedArrowDirections = .up
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
@@ -167,39 +155,37 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
     }
-
-    //Displays an alert on the screen and prompts the user with a choice to call the business
-    func callBusiness(_ phoneNumber: String,_ formatedNumber: String) {
-        
-        //Setup alert menu
-        let alertMenu = UIAlertController(title: nil, message: "Call \(business.name!)", preferredStyle: .actionSheet)
-        let cancelAlertMenu = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        //Setup action that allows the user to call when the phone number is pressed
-        let actionHandler = { (action:UIAlertAction) -> Void in
-            UIApplication.shared.open(NSURL(string: "tel://+1\(phoneNumber)") as! URL, options: [:], completionHandler: nil)
-        }
-        let callAction = UIAlertAction(title: "\(formatedNumber)", style: .default, handler: actionHandler)
-        
-        //Add call and cancel actions to the alert menu
-        alertMenu.addAction(callAction)
-        alertMenu.addAction(cancelAlertMenu)
-        
-        present(alertMenu, animated: true, completion:  nil)
-    }
     
     //Displays an alert on the screen and prompts the user with a choice to navigate to the link
-    func openLink(_ link: String) {
+    private func openLink(_ link: String,_ value: String,_ alertTitle: String) {
         
         //Setup alert menu
-        let alertMenu = UIAlertController(title: nil, message: "Open", preferredStyle: .actionSheet)
+        let alertMenu = UIAlertController(title: nil, message: alertTitle, preferredStyle: .actionSheet)
         let cancelAlertMenu = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         //Setup action that allows the user to open the link when pressed
         let actionHandler = { (action:UIAlertAction) -> Void in
-            UIApplication.shared.open(NSURL(string: link)! as URL)
+            
+            //Error message when link cannot be opened
+            let openLinkError = UIAlertController(title: "Service Unavailable", message: "Unable to open. Please try again later", preferredStyle: .alert)
+            openLinkError.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            //Error message when link is invalid
+            let invalidLinkError = UIAlertController(title: "Error", message: "An unexpected error occured. Please try again later", preferredStyle: .alert)
+            invalidLinkError.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            //Try to open link and handle errors
+            if let linkURL = NSURL(string: link) as? URL {
+            
+                //Link can be opened
+                if UIApplication.shared.canOpenURL(linkURL) {
+                   UIApplication.shared.open(linkURL, options: [:], completionHandler: nil)
+                    
+                } else { self.present(openLinkError, animated: true, completion:  nil) }
+            
+            } else { self.present(invalidLinkError, animated: true, completion:  nil) }
         }
-        let linkAction = UIAlertAction(title: "\(link)", style: .default, handler: actionHandler)
+        let linkAction = UIAlertAction(title: "\(value)", style: .default, handler: actionHandler)
         
         //Add call and cancel actions to the alert menu
         alertMenu.addAction(linkAction)
@@ -209,11 +195,11 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
     }
     
     
-    
+    /*****************************************************************************/
     // MARK: - Table view data source
     
     //Load from core data model
-    func loadData() {
+    private func loadData() {
         
         // Load Subcategories and links from core data model
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -240,10 +226,7 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
             do {
                 subCategoryList = try context.fetch(subCategoryRequest)
                 linkList = try context.fetch(linkRequest)
-            } catch {
-                print("Failed to retrieve record")
-                print(error)
-            }
+            } catch { print("Failed to retrieve record: \(error)") }
         }
     }
     
@@ -283,12 +266,14 @@ class BusinessDetailsViewController: UIViewController, UIPopoverPresentationCont
         
         //Action for opening business website, phone, and address
         switch businessDetails[indexPath.row].identifier {
+        case "address":
+            openLink(businessDetails[indexPath.row].link, businessDetails[indexPath.row].value , "Open in Apple Maps")
         case "link":
-            openLink(businessDetails[indexPath.row].link)
+            openLink(businessDetails[indexPath.row].link, businessDetails[indexPath.row].value , "Open")
         case "phone":
-            callBusiness(businessDetails[indexPath.row].link, businessDetails[indexPath.row].value)
+            openLink("tel://+1\(businessDetails[indexPath.row].link)", businessDetails[indexPath.row].value, "Call \(business.name!)")
         case "website":
-            openLink(businessDetails[indexPath.row].link)
+            openLink(businessDetails[indexPath.row].link, businessDetails[indexPath.row].value  ,"Open Website")
         default:
             break
         }

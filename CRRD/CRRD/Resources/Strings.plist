@@ -68,5 +68,7 @@
 	<string>info@sustainablecorvallis.org</string>
 	<key>APIBusiness</key>
 	<string>http://app.sustainablecorvallis.org/reuseDB</string>
+	<key>APIRecycle</key>
+	<string>http://app.sustainablecorvallis.org/recycleXML</string>
 </dict>
 </plist>

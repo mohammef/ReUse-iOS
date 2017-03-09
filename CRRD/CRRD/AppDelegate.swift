@@ -17,38 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        appTheme()
+        Utils.appTheme()
+       //UpdateDataModel.clearAllRecords()
+       //UpdateDataModel.updateDataModel()
         
         
-        let parse = ParseXML()
-        let businessList: [Business] = parse.parseXMLFile("reuseDB")
-        let recycleList: [Business] = parse.parseXMLFile("recycleXML")
-        
-        UpdateDataModel.clearEntityRecords("Business")
-        UpdateDataModel.clearEntityRecords("Category")
-        UpdateDataModel.clearEntityRecords("Subcategory")
-        UpdateDataModel.clearEntityRecords("Link")
-        UpdateDataModel.addToBusinessMO(businessList)
-        UpdateDataModel.addToBusinessMO(recycleList)
          
         return true
     }
 
-    func appTheme() {
-        
-        UIApplication.shared.statusBarStyle = .lightContent
-        
-        let navigationBar = UINavigationBar.appearance()
-        navigationBar.barTintColor = Utils.Colors.cscGreenDark
-        navigationBar.tintColor = UIColor.white
-            
-        let tableView = UITableView.appearance()
-        tableView.estimatedRowHeight = 10
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        
-    }
-    
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -13,11 +13,10 @@ class Category: NSObject {
     
     var name: String! = nil
     var subcategoryList: [String] = []
-    var businesses: [Int] = []
 
     override init(){}
     
-    init(name: String) {
+    init(_ name: String,_ subcategoryList: [String]) {
         self.name = name
     }
     
@@ -26,11 +25,6 @@ class Category: NSObject {
         for item in category.subcategoryList {
             let tmpSubCategory = item
             self.subcategoryList.append(tmpSubCategory)
-        }
-        
-        for item in category.businesses {
-            let tmpBusinessID = item
-            self.businesses.append(tmpBusinessID)
         }
     }
     

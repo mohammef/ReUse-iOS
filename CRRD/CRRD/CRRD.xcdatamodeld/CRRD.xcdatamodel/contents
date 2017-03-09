@@ -22,6 +22,9 @@
         <relationship name="business" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Business" inverseName="category" inverseEntity="Business" syncable="YES"/>
         <relationship name="subcategory" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Subcategory" inverseName="category" inverseEntity="Subcategory" syncable="YES"/>
     </entity>
+    <entity name="DatabaseVersion" representedClassName="DatabaseVersionMO" syncable="YES" codeGenerationType="class">
+        <attribute name="version_id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Link" representedClassName="LinkMO" syncable="YES" codeGenerationType="class">
         <attribute name="linkName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uri" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,5 +40,6 @@
         <element name="Category" positionX="-5697" positionY="-2088" width="128" height="88"/>
         <element name="Link" positionX="-5697" positionY="-2196" width="117" height="88"/>
         <element name="Subcategory" positionX="-5699" positionY="-1935" width="128" height="88"/>
+        <element name="DatabaseVersion" positionX="-5589" positionY="-2052" width="128" height="60"/>
     </elements>
 </model>

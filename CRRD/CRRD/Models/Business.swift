@@ -28,7 +28,11 @@ class Business: NSObject {
     
     override init(){}
     
-    init(_ name: String,_ database_id: Int,_ address_1: String,_ address_2: String, _ city: String,_ state: String,_ zip: Int,_ phone: String,_ website: String, _ latitude: Double,_ longitude: Double,_ recycleBusiness: Bool, _ categoryList: [Category],_ linkList: [Link]) {
+    init(_ name: String,_ database_id: Int,_ address_1: String,_ address_2: String,
+         _ city: String,_ state: String,_ zip: Int,_ phone: String,_ website: String,
+         _ latitude: Double,_ longitude: Double,_ recycleBusiness: Bool,
+         _ categoryList: [Category],_ linkList: [Link]) {
+        
         self.name = name
         self.database_id = database_id
         self.address_1 = address_1

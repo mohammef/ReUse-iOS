@@ -11,33 +11,92 @@ import UIKit
 
 class UpdateDataModel {
     
-    /***********************************************************************************/
-    //Clear all records from a given entity
-    /***********************************************************************************/
-    static func clearEntityRecords(_ entity: String) {
+    //Starts the parse XML process and handles case where
+    static func updateDataModel() {
+        let parse = ParseXML()
         
-        // Load entity from database
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-            let context = appDelegate.persistentContainer.viewContext
-            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest) //Batch Delete Request
+        //Clear all records and build core data model using parsed XML files
+        var result: (dbVersion: String,businessList:  [Business]) = parse.parseXMLFile("reuseDB")
+        
+        //If businessList is empty, then the database version is the same as the XML file
+        if result.businessList.count > 0 {
             
-            do {
-                try context.execute(batchDeleteRequest)
-            } catch {
-                print(error)
-            }
+            //Different databse version or core data model was empty and needed to be filled with data
+            addToBusinessMO(result.businessList, result.dbVersion)
+            result = parse.parseXMLFile("recycleXML")
+            addToBusinessMO(result.businessList, "")
         }
     }
     
-    /***********************************************************************************/
+    //Clear all core data model objets
+    static func clearAllRecords() {
+        clearEntityRecords("Business")
+        clearEntityRecords("Category")
+        clearEntityRecords("Subcategory")
+        clearEntityRecords("Link")
+        clearEntityRecords("DatabaseVersion")
+    }
+    
+    //Clear all records for the given core data model object
+    static func clearEntityRecords(_ entity: String) {
+        
+        //Load from core data model
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+            let context = appDelegate.persistentContainer.viewContext
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
+                try context.execute(batchDeleteRequest)
+            } catch { print(error) }
+            context.reset() //Free from memory
+        }
+    }
+    
+    //Check the current databse version with new version to see if there is an update
+    static func checkDbVersion(_ newVersion: String) -> Bool {
+        let currentVersion = getDbVersion()
+        if currentVersion != "" && newVersion == currentVersion {
+            return true //Same database version
+        }
+        return false //Newer database version is different
+    }
+    
+    //Get database version ID from core data model
+    static func getDbVersion() -> String {
+        
+        var result: [DatabaseVersionMO] = []
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            
+            //Load Database version ID from core data model
+            let request: NSFetchRequest<DatabaseVersionMO> = DatabaseVersionMO.fetchRequest()
+            
+            do {
+                result = try context.fetch(request)
+            } catch { print("Failed to retrieve record: \(error)") }
+        }
+        
+        if result.count == 0 {
+            return ""
+        }
+        
+        return result[0].version_id!
+    }
+    
     //Populate core data model objects using data parsed from xml file
-    /***********************************************************************************/
-    static func addToBusinessMO(_ businessList: [Business]) {
+    static func addToBusinessMO(_ businessList: [Business], _ dbVersion: String) {
         
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
             let context = appDelegate.persistentContainer.viewContext
         
+            //Update databse version
+            if dbVersion != "" {
+                let newDbVersion = DatabaseVersionMO(context: context)
+                newDbVersion.version_id = dbVersion
+            }
+            
             //Process each business in 
             for business in businessList {
                 
@@ -107,18 +166,13 @@ class UpdateDataModel {
                                             //Create relationship between category and subcategory
                                             subCategory.addToCategory(category)
                                         }
-                                    } catch { //End subcategory fetch request
-                                        print("Failed to retrieve record")
-                                        print(error)
-                                    }
+                                    //End subcategory fetch request
+                                    } catch { print("Failed to retrieve record: \(error)") }
                                 }
                             }
-                        } catch { //End category fetch request
-                            print("Failed to retrieve record")
-                            print(error)
-                        }
+                        //End category fetch request
+                        } catch { print("Failed to retrieve record: \(error)") }
                     }
-                
                 
                     //Business has links
                     if business.linkList.count > 0 {
@@ -134,14 +188,15 @@ class UpdateDataModel {
                 
                 //Save all records in core data model
                 do { try context.save() } catch { print(error) }
+                context.reset() //Free from memory
             }
         }
     }
     
-    /***********************************************************************************/
+    
+    
     //Search through Business MO for a business.
     //If it exits, return it. Otherwise, create and return new business
-    /***********************************************************************************/
     private static func getBusiness(_ business: Business,
                                     _ context: NSManagedObjectContext) -> (BusinessMO, Bool) {
         
@@ -156,10 +211,7 @@ class UpdateDataModel {
 
         do {
              businessResult = try context.fetch(request)
-        } catch {
-            print("Failed to retrieve record")
-            print(error)
-        }
+        } catch { print("Failed to retrieve record: \(error)") }
         
         //Business was found
         if businessResult.count > 0 {
@@ -174,10 +226,9 @@ class UpdateDataModel {
         return (BusinessMO(context: context), false)
     }
     
-    /***********************************************************************************/
-    //Search through Category MO for a category. 
+    
+    //Search through Category MO for a category.
     //If it exits, return it. Otherwise, create and return new category
-    /***********************************************************************************/
     private static func getCategory(_ categoryList: [CategoryMO],
                                     _ category: Category,
                                     _ context: NSManagedObjectContext) -> CategoryMO {
@@ -197,10 +248,9 @@ class UpdateDataModel {
         return newCategory
     }
     
-    /***********************************************************************************/
+    
     //Search through Subcategory MO for a subcategory.
     //If it exits, return it. Otherwise, create and return new subcategory
-    /***********************************************************************************/
     private static func getSubcategory(_ subCategoryList: [SubcategoryMO],
                                        _ subCategory: String,
                                        _ context: NSManagedObjectContext) -> SubcategoryMO {
@@ -220,10 +270,9 @@ class UpdateDataModel {
         return newSubCategory
     }
     
-    /***********************************************************************************/
+    
     //Search through Link MO for a Link.
     //If it exits, return it. Otherwise, create and return new link
-    /***********************************************************************************/
     private static func getLink(_ link: Link, _ context: NSManagedObjectContext) -> LinkMO {
         
         var linkResult: [LinkMO] = []
@@ -237,10 +286,7 @@ class UpdateDataModel {
 
         do {
             linkResult = try context.fetch(request)
-        } catch {
-            print("Failed to retrieve record")
-            print(error)
-        }
+        } catch { print("Failed to retrieve record: \(error)") }
         
         //Link was found. Return it
         if linkResult.count > 0 {

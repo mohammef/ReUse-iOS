@@ -11,7 +11,8 @@ import CoreData
 
 class CategoryTableViewController: UITableViewController, UIPopoverPresentationControllerDelegate {
     
-    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var dropDownMenuButton: UIBarButtonItem!
+    @IBOutlet weak var homeButton: UIBarButtonItem!
     private var categoryList: [CategoryMO] = []
     private var selectedCategory: CategoryMO! = nil
     
@@ -23,29 +24,31 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
         viewTheme()
         loadData()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     
+    /*****************************************************************************/
     //MARK: - Theme
     
     //Adjusts look of items in view
-    func viewTheme(){
+    private func viewTheme(){
         
         //Hide back button label from the navigation bar
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Move the home and drop down menu buttons further to the right
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -6
+        self.navigationItem.setRightBarButtonItems([negativeSpacer, dropDownMenuButton, homeButton], animated: false)
         
         //Hide separtor lines after empty cells in table view
         self.tableView.tableFooterView = UIView()
         
         //Set view label text
         self.title = strings["CategoryListActivityLabel"] as! String?
-        
     }
     
     
+    /*****************************************************************************/
     //MARK: - Navigation
     
     //Button action that displays the drop down menu
@@ -61,6 +64,7 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
         dropDownView.popoverPresentationController?.delegate = self
         dropDownView.popoverPresentationController?.sourceView = sender
         dropDownView.popoverPresentationController?.sourceRect = sender.bounds
+        dropDownView.popoverPresentationController!.permittedArrowDirections = .up
         
         //Present the popover menu
         self.present(dropDownView, animated: false, completion: nil)
@@ -80,10 +84,11 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
     }
     
     
+    /*****************************************************************************/
     // MARK: - Table view data source
     
     //Load from core data model
-    func loadData() {
+    private func loadData() {
         
         //Load Categories from core data model
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -100,10 +105,7 @@ class CategoryTableViewController: UITableViewController, UIPopoverPresentationC
             
             do {
                 categoryList = try context.fetch(request)
-            } catch {
-                print("Failed to retrieve record")
-                print(error)
-            }
+            } catch { print("Failed to retrieve record: \(error)") }
         }
     }
     

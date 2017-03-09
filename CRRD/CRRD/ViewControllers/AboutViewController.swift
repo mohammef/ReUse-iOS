@@ -10,7 +10,8 @@ import UIKit
 
 class AboutViewController: UIViewController, UIPopoverPresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var dropDownMenuButton: UIBarButtonItem!
+    @IBOutlet weak var homeButton: UIBarButtonItem!
     @IBOutlet weak var AboutActivityLabel: UILabel!
     @IBOutlet weak var AboutCorvallisReuseLabel: UILabel!
     private var aboutDetails: [String] = []
@@ -24,28 +25,30 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
         populateAboutDetails()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
-    
+    /*****************************************************************************/
     //MARK: - Theme
     
     //Adjusts look of items in view
-    func viewTheme(){
+    private func viewTheme(){
         
-        
-        //Hide back button label from the navigation bar
         //Hide back button label from the navigation bar
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        //Move the home and drop down menu buttons further to the right
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -6
+        self.navigationItem.setRightBarButtonItems([negativeSpacer, dropDownMenuButton, homeButton], animated: false)
         
         //Set view label text      
         self.title = strings["AboutActivityLabel"] as! String?
         AboutActivityLabel.text = strings["AboutActivityLabel"] as! String?
         AboutCorvallisReuseLabel.text = strings["AboutCorvallisReuse"] as! String?
+        
     }
     
 
+    /*****************************************************************************/
     //MARK: - Navigation and Data Handling
     
     //Add about details
@@ -74,6 +77,7 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
         //Setup popover presentation controller
         dropDownView.popoverPresentationController!.delegate = self
         dropDownView.popoverPresentationController!.sourceView = sender
+        dropDownView.popoverPresentationController!.permittedArrowDirections = .up
         dropDownView.popoverPresentationController!.sourceRect = CGRect(x: sender.bounds.origin.x - 1, y: sender.bounds.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
         
         //Present the popover menu
@@ -86,6 +90,7 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
     }
     
     
+    /*****************************************************************************/
     // MARK: - Table view data source
     
     //Number of rows in table view section
@@ -112,6 +117,4 @@ class AboutViewController: UIViewController, UIPopoverPresentationControllerDele
         
         return cell
     }
-    
-    
 }

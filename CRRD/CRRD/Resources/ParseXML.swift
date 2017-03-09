@@ -9,31 +9,48 @@
 import CoreData
 
 
-//Parses XML representation of database and returns array of business objects containing context from XML file
+//Parses XML representation of database and returns array of business objects containing content of XML file
 class ParseXML: NSObject, XMLParserDelegate {
     
     private var businessList: [Business] = []
     private var tmpBusiness = Business()
-    private var tmpCategory = Category()
+    private var tmpCategory =  Category()
     private var tmpLink = Link()
     private var topElement = ""
     private var currentContent = ""
     private var recycleBusiness = false
+    private var newDbVersion = ""
+    
+    //Gets the strings stored in the Strings.plist file
+    private var strings: [String: Any] = Utils.getStrings()
     override init() {}
     
+    
     //Parse XML file containing database data
-    func parseXMLFile(_ fileName: String) -> [Business] {
-        let xmlFilePath = Bundle.main.url(forResource: fileName, withExtension: ".xml")
+    func parseXMLFile(_ fileName: String) -> (String, [Business]) {
         
-        //Parsing recycle businesses xml file
-        if fileName == "recycleXML" { recycleBusiness = true }
+        //let xmlFile = Bundle.main.url(forResource: fileName, withExtension: ".xml")
+        var fileURL = ""
+        
+        if fileName == "recycleXML" {
+            //Recycle XML file
+            fileURL = strings["APIRecycle"] as! String
+            recycleBusiness = true
+        } else {
+            //reuse XML file
+            fileURL = strings["APIBusiness"] as! String
+        }
+        
+        //Get XML file from using URL
+        let xmlFile = NSURL(string: fileURL)
+        print("XML FIle: \(xmlFile)")
         
         //Initialize and start parsing
-        let parser = XMLParser(contentsOf: xmlFilePath!)
+        let parser = XMLParser(contentsOf: xmlFile! as URL)
         parser?.delegate = self
         parser?.parse()
         
-        return businessList //Contains parsed XML file as Business objects
+        return (newDbVersion,businessList) //Contains parsed XML file as Business objects
     }
     
     
@@ -52,6 +69,8 @@ class ParseXML: NSObject, XMLParserDelegate {
         case "link":
             topElement = elementName
             tmpLink = Link()
+        case "Revision":
+            newDbVersion = ""
         default: break
         }
         currentContent = ""
@@ -64,8 +83,24 @@ class ParseXML: NSObject, XMLParserDelegate {
     }
     
     
-    //End of element tag
+    //End of element tag found
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        
+        //End of Revision tag
+        if elementName == "Revision" {
+            newDbVersion = currentContent
+            
+            //Check for a newer versio of the database
+            if UpdateDataModel.checkDbVersion(newDbVersion) {
+                
+                print("No DB update. Stop parsing DB version: \(newDbVersion)")
+                //Same database. Stop parsing XML file
+                parser.abortParsing()
+            } else {
+                //New database. Clear all records and continue parsing XML file
+                UpdateDataModel.clearAllRecords()
+            }
+        }
         
         //End of business tag
         if topElement == "business" {
@@ -94,9 +129,7 @@ class ParseXML: NSObject, XMLParserDelegate {
                 tmpBusiness.latitude = Double(currentContent)
             case "longitude":
                 tmpBusiness.longitude = Double(currentContent)
-                
-            //Add Business object to business list
-            case "business":
+            case "business": //End of business
                 let business  = Business(tmpBusiness)
                 businessList.append(business)
             default: break
@@ -114,9 +147,7 @@ class ParseXML: NSObject, XMLParserDelegate {
                 var tmpSubCategory = String()
                 tmpSubCategory = currentContent
                 tmpCategory.subcategoryList.append(tmpSubCategory)
-                
-            //Add to category to temp Business object
-            case "category":
+            case "category": //End of category
                 topElement = "business"
                 let category = Category(category: tmpCategory)
                 tmpBusiness.categoryList.append(category)
@@ -132,9 +163,7 @@ class ParseXML: NSObject, XMLParserDelegate {
                 tmpLink.name = currentContent
             case "URI":
                 tmpLink.uri = currentContent
-            
-            //Add to link temp Business object
-            case "link":
+            case "link": //End of link
                 topElement = "business"
                 let link = Link(link: tmpLink)
                 tmpBusiness.linkList.append(link)
